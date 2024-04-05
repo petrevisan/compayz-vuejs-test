@@ -1,5 +1,11 @@
 {
-  "Tutorial": {
-    "description": "Auto imported from components/Tutorial.vue"
+  "ModalAddres": {
+    "description": "Auto imported from components/modal/Addres.vue"
+  },
+  "ModalCard": {
+    "description": "Auto imported from components/modal/Card.vue"
+  },
+  "ModalData": {
+    "description": "Auto imported from components/modal/Data.vue"
   }
 }

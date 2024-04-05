@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid id="modal-container" @click="modal">
+  <b-container fluid id="modal-container" @click="closeModal">
     <div id="form-wrapper">
       <div id="form-header" class="d-flex flex-row justify-content-between">
         <h2 id="form-headline" class="text-white">Informe seus dados pessoais</h2>
@@ -38,8 +38,10 @@ export default {
     }
   },
   methods: {
-    modal(event) {
-      console.log(event)
+    closeModal({ target, currentTarget}) {
+        if(target === currentTarget) {
+          this.$emit('closeModal')
+        }
     }
   }
 }
@@ -54,6 +56,16 @@ export default {
   background: #22252F;
 }
 
+#modal-container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .5);
+}
+
 #form-wrapper {
   width: 40%;
   max-width: 600px;
@@ -64,16 +76,6 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-#modal-container::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, .5);
 }
 
 #form-header {
