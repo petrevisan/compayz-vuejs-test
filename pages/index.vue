@@ -1,84 +1,134 @@
 <template>
-  <div id="wrapper">
-    <b-container fluid id="plans-wrapper">
-      <b-row class="my-3">
-        <b-col cols="12" class="d-flex justify-content-between">
-          <b-button id="planButton" variant="outline-primary" v-for="plan in availablePlans" :key="plan.id">
-            {{ plan.name }}
-          </b-button>
-        </b-col>
-      </b-row>
+    <div id="wrapper">
+        <b-container id="plans-wrapper" fluid>
+            <b-row class="my-3">
+                <b-col cols="12" class="d-flex justify-content-between">
+                    <b-button
+                        v-for="plan in availablePlans"
+                        id="planButton"
+                        :key="plan.id"
+                        variant="outline-primary"
+                        @click="showPlanContent(plan.id)">
+                        {{ plan.name }}
+                    </b-button>
+                </b-col>
+            </b-row >
 
-      <b-row class="px-3">
-        <b-col cols="8" id="">
-          <div class="plan-included d-flex flex-column">
-            <h2 class="text-white">O plano 4D irá incluir</h2>
-            <div class="d-flex flex-row justify-content-between">
-              <span class="text-white">MemberZ</span>
-              <span class="text-white">1</span>
-            </div>
-          </div>
 
-          <div class="plan-included d-flex flex-column">
-            <span class="text-white font">Domínios</span>
-            <div class="d-flex flex-row justify-content-between">
-              <span class="text-white">Adicionar pacotes avulsos</span>
-              <div class="d-flex flex-column align-items-md-center">
-                <span class="text-white">{{ domainsSelected }}</span>
-                <input type="range" min="3" max="70" v-model="domainsSelected" />
-              </div>
-            </div>
-          </div>
-        </b-col>
-        <b-col cols="4">
-          <div id="plan-price">
-            <div id="your-choice">
-              <h2 class="text-white px-3 font">Sua escolha</h2>
-            </div>
-            <div id="plan-selected" class="d-flex flex-row justify-content-between px-3">
-              <span class="text-white">Plano 4D</span>
-              <span class="text-white">R$ 100,99</span>
-            </div>
-            <div id="total-price" class="d-flex flex-row justify-content-between px-3">
-              <span class="text-white">TOTAL</span>
-              <span class="text-white">R$ 100,99</span>
-            </div>
-            <b-button variant="primary" id="sign-button" class="mx-auto d-block" @click="selectPlan">Assinar Plano</b-button>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
-    <Data v-if="isPlanSelected" @closeModal="isPlanSelected = false"></Data>
-  </div>
+            <b-row class="px-3">
+                <b-col id="" cols="8">
+                    <div class="plan-included d-flex flex-column">
+                        <h2 class="text-white">O {{ planName }} irá incluir</h2>
+                        <div class="d-flex flex-row justify-content-between">
+                            <span class="text-white">MemberZ</span>
+                            <span class="text-white">1</span>
+                        </div>
+                    </div>
+
+                    <div class="plan-included d-flex flex-column">
+                        <span class="text-white font">Domínios</span>
+                        <div class="d-flex flex-row justify-content-between">
+                            <span class="text-white">Adicionar pacotes avulsos</span>
+                            <div class="d-flex flex-column align-items-md-center">
+                                <span class="text-white">{{ domainsSelected }}</span>
+                                <input v-model="domainsSelected" type="range" min="3" max="70" >
+                            </div>
+                        </div>
+                    </div>
+                </b-col>
+                <b-col cols="4">
+                    <div id="plan-price">
+                        <div id="your-choice">
+                            <h2 class="text-white px-3 font">Sua escolha</h2>
+                        </div>
+                        <div id="plan-selected" class="d-flex flex-row justify-content-between px-3">
+                            <span class="text-white">Plano 4D</span>
+                            <span class="text-white">{{ priceFormatter }}</span>
+                        </div>
+                        <div id="total-price" class="d-flex flex-row justify-content-between px-3">
+                            <span class="text-white">TOTAL</span>
+                            <span class="text-white">{{ totalPrice }}</span>
+                        </div>
+                        <b-button id="sign-button" variant="primary" class="mx-auto d-block" @click="selectPlan">Assinar Plano</b-button>
+                    </div>
+                </b-col>
+            </b-row>
+        </b-container>
+        <CustomerData v-if="isPlanSelected" @closeModal="isPlanSelected = false" @nextStep="nextStep"></CustomerData>
+        <Address v-if="isDataFilledIn" @closeModal="isDataFilledIn = false"></Address>
+    </div>
 </template>
 
 <script>
-import Data from "@/components/modal/Data.vue";
+import CustomerData from '@/components/modal/CustomerData.vue';
+import Address from '@/components/modal/Address.vue';
 export default {
-  name: 'IndexPage',
-  components: {
-    Data
-  },
-  data() {
-    return {
-      availablePlans: {},
-      domainsSelected: 3,
-      isPlanSelected: false
+    name: 'IndexPage',
+    components: {
+        CustomerData,
+        Address
+    },
+    data () {
+        return {
+            availablePlans: {},
+            domainsSelected: 3,
+            isPlanSelected: false,
+            isDataFilledIn: false,
+            planName: '',
+            basePlanValue: 0,
+
+        };
+    },
+    computed: {
+        priceFormatter () {
+            return this.basePlanValue.toLocaleString('pt-BR', {style: 'currency', currency:'BRL'});
+        },
+        totalPrice () {
+            const price = this.basePlanValue + (this.domainsSelected * 2);
+            return price.toLocaleString('pt-BR', {style: 'currency', currency:'BRL'});
+        }
+    },
+    created () {
+        this.getAvailablePlans();
+        this.getPlan4dData();
+    },
+    methods: {
+        async getAvailablePlans () {
+            const allPlans = await this.$axios.$get('/plans/available-plans.json');
+            this.availablePlans = allPlans.data.activePlans;
+        },
+        selectPlan () {
+            this.isPlanSelected = true;
+        },
+        showPlanContent (id) {
+            switch (id) {
+            case 1:
+                this.getPlan4dData();
+                break;
+            case 2:
+                this.getPlan5dData();
+                break;
+            default:
+                console.log('0');
+            }
+        },
+        async getPlan4dData () {
+            const plano4d = await this.$axios.$get('/plans/plans_details/plan1.json');
+            this.planName = plano4d.data.planInfo.name;
+            this.basePlanValue = plano4d.data.planInfo.planBaseAmt;
+            console.log(plano4d);
+        },
+        async getPlan5dData () {
+            const plano5d = await this.$axios.$get('/plans/plans_details/plan2.json');
+            this.planName = plano5d.data.planInfo.name;
+            this.basePlanValue = plano5d.data.planInfo.planBaseAmt;
+        },
+        nextStep () {
+            this.isPlanSelected = false;
+            this.isDataFilledIn = true;
+        }
     }
-  },
-  created() {
-    this.getAvailablePlans()
-  },
-  methods: {
-    async getAvailablePlans() {
-      const allPlans = await this.$axios.$get('/plans/available-plans.json');
-      this.availablePlans = allPlans.data.activePlans;
-    },
-    selectPlan() {
-      this.isPlanSelected = true;
-    },
-  }
-}
+};
 </script>
 
 <style scoped>

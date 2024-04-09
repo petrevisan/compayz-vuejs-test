@@ -6,6 +6,6 @@ You can directly use them in pages and other components without the need to impo
 
 **Tip:** If a component is conditionally rendered with `v-if` and is big, it is better to use `Lazy` or `lazy-` prefix to lazy load.
 
-- `<ModalAddres>` | `<modal-addres>` (components/modal/Addres.vue)
+- `<ModalAddress>` | `<modal-address>` (components/modal/Address.vue)
 - `<ModalCard>` | `<modal-card>` (components/modal/Card.vue)
-- `<ModalData>` | `<modal-data>` (components/modal/Data.vue)
+- `<ModalCustomerData>` | `<modal-customer-data>` (components/modal/CustomerData.vue)

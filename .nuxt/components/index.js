@@ -1,6 +1,6 @@
-export { default as ModalAddres } from '../../components/modal/Addres.vue'
+export { default as ModalAddress } from '../../components/modal/Address.vue'
 export { default as ModalCard } from '../../components/modal/Card.vue'
-export { default as ModalData } from '../../components/modal/Data.vue'
+export { default as ModalCustomerData } from '../../components/modal/CustomerData.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {
