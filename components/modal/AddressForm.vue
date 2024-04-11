@@ -87,7 +87,7 @@
                     type="submit"
                     variant="primary"
                     class="modal-submit"
-                    @click="nextStep(); setAddressData()">Próximo</b-button>
+                    @click="personalDataFilledIn(); setAddressData()">Próximo</b-button>
             </div>
         </section>
     </div>
@@ -133,7 +133,7 @@ export default {
                 console.error('Erro');
             }
         },
-        nextStep () {
+        personalDataFilledIn () {
             this.$emit('addressFilledIn');
         },
         setAddressData () {
@@ -153,7 +153,7 @@ export default {
 <style scoped>
 @keyframes fadeIn {
   from {
-    transform: translateX(30px);
+    transform: translateX(100px);
   }
   to {
     transform: translateX(0);
@@ -183,6 +183,7 @@ export default {
 
 .form-wrapper {
   padding-block: 20px 40px;
+  animation: .7s fadeIn forwards;
 }
 
 .header-wrapper {

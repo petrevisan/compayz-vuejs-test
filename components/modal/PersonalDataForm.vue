@@ -9,7 +9,7 @@
             <div id="" class="form-wrapper">
                 <form class="d-block mx-auto">
                     <div class="d-flex flex-column col-12">
-                        <label for="name">Nome:</label>
+                        <label for="name">Nome <span class="required-signal">*</span></label>
                         <input
                             id="name"
                             v-model="customerData.name"
@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="d-flex flex-column col-12">
-                        <label for="email">E-mail:</label>
+                        <label for="email">E-mail <span class="required-signal">*</span></label>
                         <input
                             id="email"
                             v-model="customerData.mail"
@@ -30,17 +30,18 @@
                             required>
                     </div>
                     <div class="d-flex flex-column col-12">
-                        <label for="cpf_cnpj">CPF/CNPJ:</label>
+                        <label for="cpf_cnpj">CPF/CNPJ <span class="required-signal">*</span></label>
                         <input
                             id="cpf_cnpj"
-                            v-model="customerData.identifier"
+                            v-model="customerData.registrationNumber"
                             type="text"
                             name="cpf_cnpj"
                             placeholder="Digite seu CPF ou CNPJ"
+                            maxlength="14"
                             required>
                     </div>
                     <div class="d-flex flex-column col-12">
-                        <label for="phone">Telefone:</label>
+                        <label for="phone">Telefone <span class="required-signal">*</span></label>
                         <input
                             id="phone"
                             v-model="customerData.phone"
@@ -70,9 +71,13 @@ export default {
             customerData: {
                 name: '',
                 mail: '',
-                identifier: '',
+                registrationNumber: '',
                 phone: '',
             },
+            inputValidation: {
+                error: false,
+                errorMessage: '',
+            }
         };
     },
     methods: {
@@ -88,7 +93,7 @@ export default {
             this.$store.commit('setPersonalInfo', {
                 name: this.customerData.name,
                 mail: this.customerData.mail,
-                identifier: this.customerData.identifier,
+                identifier: this.customerData.registrationNumber,
                 phone: this.customerData.phone,
             });
         },

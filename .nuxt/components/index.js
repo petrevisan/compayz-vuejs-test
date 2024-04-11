@@ -1,3 +1,7 @@
+export { default as PayCard } from '../../components/PayCard.vue'
+export { default as PlanDetails } from '../../components/PlanDetails.vue'
+export { default as PlansList } from '../../components/PlansList.vue'
+export { default as PreCheckout } from '../../components/PreCheckout.vue'
 export { default as ModalAddressForm } from '../../components/modal/AddressForm.vue'
 export { default as ModalCreditCardForm } from '../../components/modal/CreditCardForm.vue'
 export { default as ModalPersonalDataForm } from '../../components/modal/PersonalDataForm.vue'

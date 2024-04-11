@@ -1,4 +1,16 @@
 {
+  "PayCard": {
+    "description": "Auto imported from components/PayCard.vue"
+  },
+  "PlanDetails": {
+    "description": "Auto imported from components/PlanDetails.vue"
+  },
+  "PlansList": {
+    "description": "Auto imported from components/PlansList.vue"
+  },
+  "PreCheckout": {
+    "description": "Auto imported from components/PreCheckout.vue"
+  },
   "ModalAddressForm": {
     "description": "Auto imported from components/modal/AddressForm.vue"
   },

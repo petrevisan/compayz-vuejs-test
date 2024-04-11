@@ -36,6 +36,7 @@
                         <input
                             id="card-registration-number"
                             v-model.lazy="cardRegistrationNumber"
+                            maxlength="14"
                             type="text"
                             name="card-registration-number"
                             placeholder="Digite o CPF ou CNPJ do titular do cartão"
@@ -48,6 +49,7 @@
                             <input
                                 id="expiration-date"
                                 v-model.lazy="expirationDate"
+                                maxlength="6"
                                 type="text"
                                 name="expiration-date"
                                 placeholder="MM/AAAA"
@@ -74,8 +76,12 @@
 </template>
 
 <script>
+import PayCard from '@/components/PayCard.vue';
 export default {
-    name: 'Card',
+    name: 'CreditCardForm',
+    components: {
+        PayCard
+    },
     props: {
         totalPrice: '',
     },
@@ -111,6 +117,15 @@ export default {
 </script>
 
 <style scoped>
+@keyframes fadeIn {
+  from {
+    transform: translateX(100px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 #modal {
   max-width: 600px;
   background: #2B2E3B;
@@ -145,6 +160,7 @@ export default {
 .form-wrapper {
   padding-block: 30px 40px;
   border-bottom: 1px solid #ffffff20;
+  animation: .7s fadeIn forwards;
 }
 
 #button-wrapper {

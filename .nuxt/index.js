@@ -16,6 +16,7 @@ import { createStore } from './store.js'
 import nuxt_plugin_plugin_08cc1876 from 'nuxt_plugin_plugin_08cc1876' // Source: ./components/plugin.js (mode: 'all')
 import nuxt_plugin_bootstrapvue_0aa856bb from 'nuxt_plugin_bootstrapvue_0aa856bb' // Source: ./bootstrap-vue.js (mode: 'all')
 import nuxt_plugin_axios_6ea6c48c from 'nuxt_plugin_axios_6ea6c48c' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_vuepaycard_11d6cedc from 'nuxt_plugin_vuepaycard_11d6cedc' // Source: ../plugins/vue-paycard.js (mode: 'client')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -223,6 +224,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_axios_6ea6c48c === 'function') {
     await nuxt_plugin_axios_6ea6c48c(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_vuepaycard_11d6cedc === 'function') {
+    await nuxt_plugin_vuepaycard_11d6cedc(app.context, inject)
   }
 
   // Lock enablePreview in context

@@ -12,8 +12,13 @@
             <div class="d-flex flex-row justify-content-between">
                 <span class="text-white">Adicionar pacotes avulsos</span>
                 <div class="d-flex flex-column align-items-md-center">
-                    <span class="text-white">+ {{ extraDomainsSelected }} inclusos</span>
-                    <input v-model="extraDomainsSelected" type="range" min="0" max="70">
+                    <span class="text-white">+ {{ extraDomains }} inclusos</span>
+                    <input
+                        v-model="extraDomains"
+                        type="range"
+                        min="0"
+                        max="70"
+                        @change="setExtraDomains">
                 </div>
             </div>
         </div>
@@ -23,8 +28,18 @@
 export default {
     name: 'PlanDetails',
     props: {
-        extraDomainsSelected: {},
-        planName: {}
+        planName: '',
+    },
+    data () {
+        return {
+            extraDomains: 0,
+        };
+    },
+    methods: {
+        setExtraDomains () {
+            const settedDomains = this.extraDomains;
+            this.$emit('setExtraDomains', settedDomains);
+        }
     }
 };
 </script>

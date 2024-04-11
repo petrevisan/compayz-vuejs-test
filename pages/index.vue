@@ -2,59 +2,21 @@
     <div id="wrapper">
         <b-container id="plans-wrapper" fluid>
             <b-row class="my-3">
-                <b-col cols="12" class="d-flex justify-content-between">
-                    <b-button
-                        v-for="plan in availablePlans"
-                        id="planButton"
-                        :key="plan.id"
-                        variant="outline-primary"
-                        @click="showPlanContent(plan.id)">
-                        {{ plan.name }}
-                    </b-button>
+                <b-col cols="12" class="d-block mx-auto">
+                    <PlansList @getPlan4d="getPlan4dData" @getPlan5d="getPlan5dData"/>
                 </b-col>
             </b-row >
             <b-row class="px-3">
                 <b-col id="" cols="8">
-                    <div class="plan-included d-flex flex-column">
-                        <h2 class="text-white">O {{ planName }} irá incluir</h2>
-                        <div class="d-flex flex-row justify-content-between">
-                            <span class="text-white">MemberZ</span>
-                            <span class="text-white">1</span>
-                        </div>
-                    </div>
-
-                    <div class="plan-included d-flex flex-column">
-                        <span class="text-white font">Domínios</span>
-                        <div class="d-flex flex-row justify-content-between">
-                            <span class="text-white">Adicionar pacotes avulsos</span>
-                            <div class="d-flex flex-column align-items-md-center">
-                                <span class="text-white">{{ domainsSelected }}</span>
-                                <input v-model="domainsSelected" type="range" min="3" max="70" >
-                            </div>
-                        </div>
-                    </div>
+                    <PlanDetails :plan-name="planName" @setExtraDomains="getDomainsNumber"/>
                 </b-col>
                 <b-col cols="4">
-                    <div id="plan-price">
-                        <div id="your-choice">
-                            <h2 class="text-white px-3 font">Sua escolha</h2>
-                        </div>
-                        <div id="chosen-plan" class="d-flex flex-row justify-content-between px-3">
-                            <div class="d-flex flex-column">
-                                <span class="text-white">Plano 4D</span>
-                                <span class="text-white">+ {{domainsSelected}} domínio(s)</span>
-                            </div>
-                            <div class="d-flex flex-column">
-                                <span class="text-white">{{ priceFormatter }}</span>
-                                <span class="text-white">QUalquer preço</span>
-                            </div>
-                        </div>
-                        <div id="total-price" class="d-flex flex-row justify-content-between px-3">
-                            <span class="text-white">TOTAL</span>
-                            <span class="text-white">{{ totalPrice }}</span>
-                        </div>
-                        <b-button id="sign-button" variant="primary" class="mx-auto d-block" @click="signPlan">Assinar Plano</b-button>
-                    </div>
+                    <PreCheckout
+                        :plan-name="planName"
+                        :plan-price="basePlanValue"
+                        :extra-domains="extraDomainsSelected"
+                        @openDataModal="signPlan"
+                    />
                 </b-col>
             </b-row>
         </b-container>
@@ -65,46 +27,40 @@
 </template>
 
 <script>
+import PlansList from '@/components/PlansList.vue';
+import PlanDetails from '@/components/PlanDetails.vue';
 import PersonalDataForm from '@/components/modal/PersonalDataForm.vue';
 import AddressForm from '@/components/modal/AddressForm.vue';
 import CreditCardForm from '@/components/modal/CreditCardForm.vue';
+import PreCheckout from '@/components/PreCheckout.vue';
+
 export default {
     name: 'IndexPage',
     components: {
+        PreCheckout,
+        PlanDetails,
+        PlansList,
         PersonalDataForm,
         AddressForm,
         CreditCardForm,
     },
     data () {
         return {
-            availablePlans: {},
-            domainsSelected: 3,
+            extraDomainsSelected: 0,
             isPlanSelected: false,
             isDataFilledIn: false,
             isCardFilledIn: false,
             planName: '',
             basePlanValue: 0,
-            basePlanDomains: 3,
         };
     },
     computed: {
-        priceFormatter () {
-            return this.basePlanValue.toLocaleString('pt-BR', {style: 'currency', currency:'BRL'});
-        },
         totalPrice () {
-            const price = this.basePlanValue + (this.domainsSelected * 2);
+            const price = this.basePlanValue + (this.extraDomainsSelected * 5);
             return price.toLocaleString('pt-BR', {style: 'currency', currency:'BRL'});
         },
     },
-    created () {
-        this.getAvailablePlans();
-        this.getPlan4dData();
-    },
     methods: {
-        async getAvailablePlans () {
-            const allPlans = await this.$axios.$get('/plans/available-plans.json');
-            this.availablePlans = allPlans.data.activePlans;
-        },
         signPlan () {
             this.isPlanSelected = true;
         },
@@ -117,18 +73,6 @@ export default {
             this.isPlanSelected = false;
             this.isDataFilledIn = true;
             this.isCardFilledIn = false;
-        },
-        showPlanContent (id) {
-            switch (id) {
-            case 1:
-                this.getPlan4dData();
-                break;
-            case 2:
-                this.getPlan5dData();
-                break;
-            default:
-                console.log('0');
-            }
         },
         async getPlan4dData () {
             const plano4d = await this.$axios.$get('/plans/plans_details/plan1.json');
@@ -148,7 +92,12 @@ export default {
             this.isPlanSelected = false;
             this.isDataFilledIn = false;
             this.isCardFilledIn = true;
+        },
+        getDomainsNumber (settedDomains) {
+            this.extraDomainsSelected = settedDomains;
+            console.log(this.extraDomainsSelected);
         }
+
     }
 };
 </script>
@@ -169,48 +118,4 @@ export default {
   padding: 60px 20px;
 }
 
-#planButton {
-  width: calc(100% / 5.5);
-  background: transparent;
-  border: 1px solid #fff;
-  border-radius: 12px;
-  color: #fff;
-  padding: 12px 20px;
-  margin-inline: 10px;
-}
-
-.plan-included {
-  border: 1px solid #ffffff20;
-  border-radius: 12px;
-  padding: 10px;
-}
-
-#plan-price {
-  background: #373c4b;
-  border-radius: 12px;
-  padding-block: 10px;
-}
-
-#chosen-plan {
-  padding-block: 25px 50px;
-  border-bottom: 1px solid #ffffff20;
-  border-top: 1px solid #ffffff20;
-}
-
-#total-price {
-  background: #777777;
-  margin: 10px;
-  padding-block: 8px;
-}
-
-#sign-button {
-  width: 97%;
-  font-weight: bold;
-  margin-top: 15px;
-}
-
-.font {
-  font-size: 22px;
-  font-weight: bold;
-}
 </style>

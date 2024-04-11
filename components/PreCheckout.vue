@@ -1,37 +1,60 @@
 <template>
-  <div id="plan-price">
-    <div id="your-choice">
-      <h2 class="text-white px-3 font">Sua escolha</h2>
+    <div>
+        <div id="plan-price">
+            <div id="your-choice">
+                <h2 class="text-white px-3 font">Sua escolha</h2>
+            </div>
+            <div id="chosen-plan" class="d-flex flex-row justify-content-between px-3">
+                <div class="d-flex flex-column">
+                    <span class="text-white">{{ planName }}</span>
+                    <span v-if="extraDomains > 0" class="text-white">+ {{ extraDomains }} domínio(s)</span>
+                </div>
+                <div class="d-flex flex-column">
+                    <span class="text-white">{{ priceFormatterToBrl }}</span>
+                    <span v-if="extraDomains > 0" class="text-white">{{ extraDomainsCost }}</span>
+                </div>
+            </div>
+            <div id="total-price" class="d-flex flex-row justify-content-between px-3">
+                <span class="text-white">TOTAL</span>
+                <span class="text-white">{{ totalPrice }}</span>
+            </div>
+            <b-button id="sign-button" variant="primary" class="mx-auto d-block" @click="openDataModal">Assinar Plano</b-button>
+        </div>
     </div>
-    <div id="chosen-plan" class="d-flex flex-row justify-content-between px-3">
-      <div class="d-flex flex-column">
-        <span class="text-white">{{ planName }}</span>
-        <span v-if="extraDomainsSelected > 0" class="text-white">+ {{extraDomainsSelected}} domínio(s)</span>
-      </div>
-      <div class="d-flex flex-column">
-        <span class="text-white">{{ priceFormatter }}</span>
-        <span v-if="extraDomainsSelected > 0" class="text-white">{{ extraDomainsPrice }}</span>
-      </div>
-    </div>
-    <div id="total-price" class="d-flex flex-row justify-content-between px-3">
-      <span class="text-white">TOTAL</span>
-      <span class="text-white">{{ totalPrice }}</span>
-    </div>
-    <b-button id="sign-button" variant="primary" class="mx-auto d-block" @click="signPlan">Assinar Plano</b-button>
-  </div>
 </template>
 <script>
 export default {
-  name: 'PreCheckout',
-  props: {
-    extraDomainsPrice: {},
-    extraDomainsSelected: {},
-    planName: {},
-    priceFormatter: {},
-    signPlan: {},
-    totalPrice: {}
-  }
-}
+    name: 'PreCheckout',
+    props: {
+        extraDomainsSelected: 0,
+        planName: '',
+        planPrice: 0,
+        extraDomains: 0,
+    },
+    data () {
+        return {
+
+        };
+    },
+    computed: {
+        priceFormatterToBrl () {
+            return this.planPrice.toLocaleString('pt-BR', {style: 'currency', currency:'BRL'});
+        },
+        extraDomainsCost () {
+            const domainsPrice = this.extraDomains * 5;
+            return domainsPrice.toLocaleString(('pt-BR'), {style: 'currency', currency: 'BRL'});
+        },
+        totalPrice () {
+            const totalPrice = this.planPrice + (this.extraDomains * 5);
+            return totalPrice.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+        }
+    },
+    methods: {
+        openDataModal () {
+            this.$emit('openDataModal');
+        }
+    }
+};
 </script>
 <style scoped>
 
@@ -51,6 +74,7 @@ export default {
   background: #777777;
   margin: 10px;
   padding-block: 8px;
+  border-radius: 5px;
 }
 
 #sign-button {
