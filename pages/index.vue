@@ -13,8 +13,6 @@
                     </b-button>
                 </b-col>
             </b-row >
-
-
             <b-row class="px-3">
                 <b-col id="" cols="8">
                     <div class="plan-included d-flex flex-column">
@@ -41,32 +39,41 @@
                         <div id="your-choice">
                             <h2 class="text-white px-3 font">Sua escolha</h2>
                         </div>
-                        <div id="plan-selected" class="d-flex flex-row justify-content-between px-3">
-                            <span class="text-white">Plano 4D</span>
-                            <span class="text-white">{{ priceFormatter }}</span>
+                        <div id="chosen-plan" class="d-flex flex-row justify-content-between px-3">
+                            <div class="d-flex flex-column">
+                                <span class="text-white">Plano 4D</span>
+                                <span class="text-white">+ {{domainsSelected}} domínio(s)</span>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span class="text-white">{{ priceFormatter }}</span>
+                                <span class="text-white">QUalquer preço</span>
+                            </div>
                         </div>
                         <div id="total-price" class="d-flex flex-row justify-content-between px-3">
                             <span class="text-white">TOTAL</span>
                             <span class="text-white">{{ totalPrice }}</span>
                         </div>
-                        <b-button id="sign-button" variant="primary" class="mx-auto d-block" @click="selectPlan">Assinar Plano</b-button>
+                        <b-button id="sign-button" variant="primary" class="mx-auto d-block" @click="signPlan">Assinar Plano</b-button>
                     </div>
                 </b-col>
             </b-row>
         </b-container>
-        <CustomerData v-if="isPlanSelected" @closeModal="isPlanSelected = false" @nextStep="nextStep"></CustomerData>
-        <Address v-if="isDataFilledIn" @closeModal="isDataFilledIn = false"></Address>
+        <PersonalDataForm v-if="isPlanSelected" @closeModal="isPlanSelected = false" @nextStep="nextStep"></PersonalDataForm>
+        <AddressForm v-if="isDataFilledIn" @closeModal="isDataFilledIn = false" @addressFilledIn="openCardModal" @getPreviousForm="getBackAddresToData"></AddressForm>
+        <CreditCardForm v-if="isCardFilledIn" :total-price="totalPrice" @closeModal="isCardFilledIn = false" @getBackPreviousForm="getBackCardToAddress"></CreditCardForm>
     </div>
 </template>
 
 <script>
-import CustomerData from '@/components/modal/CustomerData.vue';
-import Address from '@/components/modal/Address.vue';
+import PersonalDataForm from '@/components/modal/PersonalDataForm.vue';
+import AddressForm from '@/components/modal/AddressForm.vue';
+import CreditCardForm from '@/components/modal/CreditCardForm.vue';
 export default {
     name: 'IndexPage',
     components: {
-        CustomerData,
-        Address
+        PersonalDataForm,
+        AddressForm,
+        CreditCardForm,
     },
     data () {
         return {
@@ -74,9 +81,10 @@ export default {
             domainsSelected: 3,
             isPlanSelected: false,
             isDataFilledIn: false,
+            isCardFilledIn: false,
             planName: '',
             basePlanValue: 0,
-
+            basePlanDomains: 3,
         };
     },
     computed: {
@@ -86,7 +94,7 @@ export default {
         totalPrice () {
             const price = this.basePlanValue + (this.domainsSelected * 2);
             return price.toLocaleString('pt-BR', {style: 'currency', currency:'BRL'});
-        }
+        },
     },
     created () {
         this.getAvailablePlans();
@@ -97,8 +105,18 @@ export default {
             const allPlans = await this.$axios.$get('/plans/available-plans.json');
             this.availablePlans = allPlans.data.activePlans;
         },
-        selectPlan () {
+        signPlan () {
             this.isPlanSelected = true;
+        },
+        getBackAddresToData () {
+            this.isPlanSelected = true;
+            this.isDataFilledIn = false;
+            this.isCardFilledIn = false;
+        },
+        getBackCardToAddress () {
+            this.isPlanSelected = false;
+            this.isDataFilledIn = true;
+            this.isCardFilledIn = false;
         },
         showPlanContent (id) {
             switch (id) {
@@ -116,7 +134,6 @@ export default {
             const plano4d = await this.$axios.$get('/plans/plans_details/plan1.json');
             this.planName = plano4d.data.planInfo.name;
             this.basePlanValue = plano4d.data.planInfo.planBaseAmt;
-            console.log(plano4d);
         },
         async getPlan5dData () {
             const plano5d = await this.$axios.$get('/plans/plans_details/plan2.json');
@@ -126,6 +143,11 @@ export default {
         nextStep () {
             this.isPlanSelected = false;
             this.isDataFilledIn = true;
+        },
+        openCardModal () {
+            this.isPlanSelected = false;
+            this.isDataFilledIn = false;
+            this.isCardFilledIn = true;
         }
     }
 };
@@ -169,7 +191,7 @@ export default {
   padding-block: 10px;
 }
 
-#plan-selected {
+#chosen-plan {
   padding-block: 25px 50px;
   border-bottom: 1px solid #ffffff20;
   border-top: 1px solid #ffffff20;

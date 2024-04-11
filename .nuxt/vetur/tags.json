@@ -1,11 +1,11 @@
 {
-  "ModalAddress": {
-    "description": "Auto imported from components/modal/Address.vue"
+  "ModalAddressForm": {
+    "description": "Auto imported from components/modal/AddressForm.vue"
   },
-  "ModalCard": {
-    "description": "Auto imported from components/modal/Card.vue"
+  "ModalCreditCardForm": {
+    "description": "Auto imported from components/modal/CreditCardForm.vue"
   },
-  "ModalCustomerData": {
-    "description": "Auto imported from components/modal/CustomerData.vue"
+  "ModalPersonalDataForm": {
+    "description": "Auto imported from components/modal/PersonalDataForm.vue"
   }
 }

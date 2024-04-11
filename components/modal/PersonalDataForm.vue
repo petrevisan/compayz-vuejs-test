@@ -57,7 +57,7 @@
                     type="submit"
                     variant="primary"
                     class="modal-submit"
-                    @click="nextStep">Próximo</b-button>
+                    @click="setPersonalInfo(); nextStep()">Próximo</b-button>
             </div>
         </section>
     </div>
@@ -84,8 +84,8 @@ export default {
         closeModalX () {
             this.$emit('closeModal');
         },
-        updateCostumerData () {
-            this.$store.commit('registerCustomer', {
+        setPersonalInfo () {
+            this.$store.commit('setPersonalInfo', {
                 name: this.customerData.name,
                 mail: this.customerData.mail,
                 identifier: this.customerData.identifier,

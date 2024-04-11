@@ -1,13 +1,13 @@
 <template>
     <div class="modal-outside" @click="closeModal">
-        <div id="address-modal" class="container">
+        <section id="address-modal" class="container">
             <div class="header-wrapper d-flex flex-row justify-content-around align-items-center">
                 <img src="icons/left-arrow.svg" class="icon" @click="getPreviousForm">
                 <h2>Informe seu endereço</h2>
                 <img src="icons/close-icon.svg" class="icon" @click="closeModalX" >
             </div>
             <div class="form-wrapper">
-                <form class="d-block mx-auto col-11">
+                <form class="d-block mx-auto">
                     <div class="d-flex flex-column col-12">
                         <label for="cep">CEP <span class="required-signal">*</span></label>
                         <input
@@ -20,75 +20,60 @@
                             required
                             @blur="getCepData(customerAddress.cep)" >
                     </div>
-                    <div class="d-flex flex-column col-12">
-                        <label for="street">Rua <span class="required-signal">*</span></label>
-                        <input
-                            id="street"
-                            v-model="customerAddress.street"
-                            type="text"
-                            name="street"
-                            placeholder="Rua"
-                            required >
+                    <div class="d-flex flex-row col-12">
+                        <div class="d-flex flex-column col-8 pl-0">
+                            <label for="street">Rua <span class="required-signal">*</span></label>
+                            <input
+                                id="street"
+                                v-model="customerAddress.street"
+                                type="text"
+                                name="street"
+                                placeholder="Rua"
+                                required >
+                        </div>
+                        <div class="d-flex flex-column col-4 pr-0">
+                            <label for="address-number">Número <span class="required-signal">*</span></label>
+                            <input
+                                id="address-number"
+                                v-model="customerAddress.addressNumber"
+                                type="text"
+                                name="address-number"
+                                placeholder="Nº"
+                                required >
+                        </div>
                     </div>
-                    <div class="d-flex flex-column col-12">
-                        <label for="street">Rua <span class="required-signal">*</span></label>
-                        <input
-                            id="street"
-                            v-model="customerAddress.street"
-                            type="text"
-                            name="street"
-                            placeholder="Rua"
-                            required >
-                    </div>
-                    <div class="d-flex flex-column col-12">
-                        <label for="street">Rua <span class="required-signal">*</span></label>
-                        <input
-                            id="street"
-                            v-model="customerAddress.street"
-                            type="text"
-                            name="street"
-                            placeholder="Rua"
-                            required >
-                    </div>
-                    <div class="d-flex flex-column col-12">
-                        <label for="house-number">Número <span class="required-signal">*</span></label>
-                        <input
-                            id="house-number"
-                            v-model="customerAddress.houseNumber"
-                            type="text"
-                            name="house-number"
-                            placeholder="Nº"
-                            required >
-                    </div>
-                    <div class="d-flex flex-column col-4">
-                        <label for="neighborhood">Bairro <span class="required-signal">*</span></label>
-                        <input
-                            id="neighborhood"
-                            v-model="customerAddress.neighborhood"
-                            type="text"
-                            name="neighborhood"
-                            placeholder="Bairro"
-                            required >
-                    </div>
-                    <div class="d-flex flex-column col-4">
-                        <label for="city">Cidade <span class="required-signal">*</span></label>
-                        <input
-                            id="city"
-                            v-model="customerAddress.city"
-                            type="text"
-                            name="city"
-                            placeholder="Cidade"
-                            required>
-                    </div>
-                    <div class="d-flex flex-column col-4">
-                        <label for="state">Estado <span class="required-signal">*</span></label>
-                        <input
-                            id="state"
-                            v-model="customerAddress.state"
-                            type="text"
-                            name="state"
-                            placeholder="Estado"
-                            required>
+
+                    <div class="d-flex flex-row col-12">
+                        <div class="d-flex flex-column col-4 pl-0">
+                            <label for="neighborhood">Bairro <span class="required-signal">*</span></label>
+                            <input
+                                id="neighborhood"
+                                v-model="customerAddress.neighborhood"
+                                type="text"
+                                name="neighborhood"
+                                placeholder="Bairro"
+                                required >
+                        </div>
+                        <div class="d-flex flex-column col-4 px-1">
+                            <label for="street">Cidade <span class="required-signal">*</span></label>
+                            <input
+                                id="city"
+                                v-model="customerAddress.city"
+                                type="text"
+                                name="city"
+                                placeholder="Cidade"
+                                required >
+                        </div>
+                        <div class="d-flex flex-column col-4 pr-0">
+                            <label for="street">Estado <span class="required-signal">*</span></label>
+                            <input
+                                id="state"
+                                v-model="customerAddress.state"
+                                type="text"
+                                name="state"
+                                placeholder="Estado"
+                                required >
+                        </div>
                     </div>
 
                     <div class="d-flex flex-column col-12">
@@ -96,17 +81,15 @@
                         <input id="complement" type="text" name="complement" placeholder="Coloque um complemento (opcional)">
                     </div>
                 </form>
+            </div>
+            <div class="button-wrapper">
                 <b-button
-                    id="next-button"
                     type="submit"
                     variant="primary"
-                    class="modal-submit "
-                    @click="nextStep" >Próximo</b-button>
-
+                    class="modal-submit"
+                    @click="nextStep(); setAddressData()">Próximo</b-button>
             </div>
-        </div>
-    </div>
-    </div>
+        </section>
     </div>
 </template>
 
@@ -118,7 +101,7 @@ export default {
             customerAddress: {
                 cep: '',
                 street: '',
-                houseNumber: '',
+                addressNumber: '',
                 neighborhood: '',
                 city: '',
                 state: '',
@@ -152,6 +135,16 @@ export default {
         },
         nextStep () {
             this.$emit('addressFilledIn');
+        },
+        setAddressData () {
+            this.$store.commit('setAddress', {
+                cep: this.customerAddress.cep,
+                street: this.customerAddress.street,
+                addressNumber: this.customerAddress.cep,
+                neighborhood: this.customerAddress.cep,
+                city: this.customerAddress.cep,
+                state: this.customerAddress.state,
+            });
         }
     }
 };
@@ -188,6 +181,10 @@ export default {
   background: rgba(0, 0, 0, .5);
 }
 
+.form-wrapper {
+  padding-block: 20px 40px;
+}
+
 .header-wrapper {
   border-bottom: 1px solid #ffffff20;
   padding-block: 20px;
@@ -198,9 +195,10 @@ export default {
   padding-top: 10px;
 }
 
-
-#next-button {
-  width: 95%;
-  margin-top: 20px;
+.button-wrapper {
+  border-top: 1px solid #ffffff20;
+  padding-block: 20px;
 }
+
+
 </style>

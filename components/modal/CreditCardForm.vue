@@ -9,7 +9,7 @@
             <div class="form-wrapper">
                 <form class="d-block mx-auto">
                     <div class="d-flex flex-column col-12">
-                        <img src="/images/card.webp" class="img-fluid">
+                        <img src="/images/card.webp" class="img-fluid pb-3">
                         <label for="card-number">Número do cartão <span class="required-signal">*</span></label>
                         <input
                             id="card-number"
@@ -67,7 +67,7 @@
                 </form>
             </div>
             <div id="button-wrapper">
-                <b-button variant="primary" class="next-step-button modal-submit">Assinar Plano ({{ totalPrice }})</b-button>
+                <b-button variant="primary" class="next-step-button modal-submit" @click="setPaymentInfo">Assinar Plano ({{ totalPrice }})</b-button>
             </div>
         </section>
     </div>
@@ -97,6 +97,15 @@ export default {
         getPreviousForm (){
             this.$emit('getBackPreviousForm');
         },
+        setPaymentInfo () {
+            this.$store.commit('setPayment', {
+                cardNumber: this.cardNumber,
+                cardOwner: this.cardOwner,
+                cardRegistrationNumber: this.cardRegistrationNumber,
+                expirationDate: this.expirationDate,
+                securityCode: this.securityCode,
+            });
+        }
     }
 };
 </script>

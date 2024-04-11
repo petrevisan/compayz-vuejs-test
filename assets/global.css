@@ -1,3 +1,9 @@
+* {
+    color: #fff;
+    padding: 0px;
+    margin: 0px;
+}
+
 input {
     border: 1px solid #ffffff20;
     border-radius: 5px;
@@ -5,13 +11,42 @@ input {
     height: 50px;
     padding-inline: 20px;
     color: #ffffff;
+    max-width: 100%;
 }
 
 input::placeholder {
     color: #ffffff60
 }
 
+.required-signal {
+    color: dodgerblue;
+}
+
 label {
     color: #ffffff;
     padding-top: 15px;
 }
+
+.icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.modal-submit {
+    display: block;
+    margin: auto;
+    padding-block: 10px;
+    font-weight: bold;
+    width: 78%;
+}
+
+.modal-outside {
+    max-width: 600px;
+}
+
+form {
+    max-width: 500px;
+}
+
+
