@@ -1,13 +1,13 @@
 <template>
-    <div class="container" @click="closeModal">
-        <div id="address-modal-wrapper" class="col-6">
-            <div id="header-wrapper" class="d-flex flex-row justify-content-between align-items-center">
-                <img src="icons/left-arrow.svg" class="icon" >
+    <div class="modal-outside" @click="closeModal">
+        <div id="address-modal" class="container">
+            <div class="header-wrapper d-flex flex-row justify-content-around align-items-center">
+                <img src="icons/left-arrow.svg" class="icon" @click="getPreviousForm">
                 <h2>Informe seu endereço</h2>
                 <img src="icons/close-icon.svg" class="icon" @click="closeModalX" >
             </div>
-            <div id="address-form-wrapper" class="col-12">
-                <div class="row">
+            <div class="form-wrapper">
+                <form class="d-block mx-auto col-11">
                     <div class="d-flex flex-column col-12">
                         <label for="cep">CEP <span class="required-signal">*</span></label>
                         <input
@@ -20,8 +20,7 @@
                             required
                             @blur="getCepData(customerAddress.cep)" >
                     </div>
-
-                    <div class="d-flex flex-column col-8">
+                    <div class="d-flex flex-column col-12">
                         <label for="street">Rua <span class="required-signal">*</span></label>
                         <input
                             id="street"
@@ -31,8 +30,27 @@
                             placeholder="Rua"
                             required >
                     </div>
-
-                    <div class="d-flex flex-column col-4">
+                    <div class="d-flex flex-column col-12">
+                        <label for="street">Rua <span class="required-signal">*</span></label>
+                        <input
+                            id="street"
+                            v-model="customerAddress.street"
+                            type="text"
+                            name="street"
+                            placeholder="Rua"
+                            required >
+                    </div>
+                    <div class="d-flex flex-column col-12">
+                        <label for="street">Rua <span class="required-signal">*</span></label>
+                        <input
+                            id="street"
+                            v-model="customerAddress.street"
+                            type="text"
+                            name="street"
+                            placeholder="Rua"
+                            required >
+                    </div>
+                    <div class="d-flex flex-column col-12">
                         <label for="house-number">Número <span class="required-signal">*</span></label>
                         <input
                             id="house-number"
@@ -42,7 +60,6 @@
                             placeholder="Nº"
                             required >
                     </div>
-
                     <div class="d-flex flex-column col-4">
                         <label for="neighborhood">Bairro <span class="required-signal">*</span></label>
                         <input
@@ -53,7 +70,6 @@
                             placeholder="Bairro"
                             required >
                     </div>
-
                     <div class="d-flex flex-column col-4">
                         <label for="city">Cidade <span class="required-signal">*</span></label>
                         <input
@@ -79,12 +95,18 @@
                         <label for="complement">Complemento</label>
                         <input id="complement" type="text" name="complement" placeholder="Coloque um complemento (opcional)">
                     </div>
+                </form>
+                <b-button
+                    id="next-button"
+                    type="submit"
+                    variant="primary"
+                    class="modal-submit "
+                    @click="nextStep" >Próximo</b-button>
 
-                    <b-button id="next-button" type="submit" variant="primary" class="mx-auto d-block">Próximo</b-button>
-
-                </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </template>
 
@@ -113,6 +135,9 @@ export default {
         closeModalX () {
             this.$emit('closeModal');
         },
+        getPreviousForm () {
+            this.$emit('getPreviousForm');
+        },
         async getCepData (cep) {
             try {
                 const viacepReturn = await this.$axios.$get(`https://viacep.com.br/ws/${cep}/json/`);
@@ -124,6 +149,9 @@ export default {
             catch {
                 console.error('Erro');
             }
+        },
+        nextStep () {
+            this.$emit('addressFilledIn');
         }
     }
 };
@@ -139,10 +167,10 @@ export default {
   }
 }
 
-#address-modal-wrapper {
+#address-modal {
   background: #2B2E3B;
-  padding: 20px;
   border-radius: 12px;
+  padding: 0;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -150,7 +178,7 @@ export default {
   max-width: 600px;
 }
 
-.container::before {
+.modal-outside::before {
   content: "";
   position: fixed;
   top: 0;
@@ -160,30 +188,19 @@ export default {
   background: rgba(0, 0, 0, .5);
 }
 
-#header-wrapper h2 {
-  color: #fff;
-  font-size: 24px;
+.header-wrapper {
+  border-bottom: 1px solid #ffffff20;
+  padding-block: 20px;
 }
 
-#address-form-wrapper {
-  display: inline-block;
-  flex-wrap: wrap;
-  padding: 5px;
-  animation: fadeIn 1s forwards;
+.header-wrapper h2 {
+  font-size: 24px;
+  padding-top: 10px;
 }
+
 
 #next-button {
   width: 95%;
   margin-top: 20px;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
-.required-signal {
-  color: dodgerblue;
 }
 </style>
