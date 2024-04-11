@@ -35,8 +35,8 @@
                         <label for="card-registration-number">CPF/CNPJ do titular do cartão <span class="required-signal">*</span></label>
                         <input
                             id="card-registration-number"
-                            v-model.lazy="cardRegistrationNumber"
-                            maxlength="14"
+                            v-model="cardRegistrationNumber"
+                            maxlength="18"
                             type="text"
                             name="card-registration-number"
                             placeholder="Digite o CPF ou CNPJ do titular do cartão"
@@ -83,7 +83,7 @@ export default {
         PayCard
     },
     props: {
-        totalPrice: '',
+        totalPrice: String,
     },
     data () {
         return {
@@ -93,6 +93,13 @@ export default {
             expirationDate: '',
             securityCode: ''
         };
+    },
+    watch: {
+        cardRegistrationNumber (newVal, oldVal) {
+            if (newVal !== oldVal) {
+                this.cardRegistrationNumber = this.formatCpfCnpj(newVal);
+            }
+        }
     },
     methods: {
         closeModal ({target, currentTarget}) {
@@ -111,6 +118,21 @@ export default {
                 expirationDate: this.expirationDate,
                 securityCode: this.securityCode,
             });
+        },
+        formatCpfCnpj (value) {
+            value = value.replace(/\D/g, ''); // Remove tudo o que não é dígito
+
+            if (value.length <= 11) {
+                // Formatação para CPF
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            } else {
+                // Formatação para CNPJ
+                value = value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+            }
+
+            return value;
         }
     }
 };

@@ -28,7 +28,7 @@
 export default {
     name: 'PlanDetails',
     props: {
-        planName: '',
+        planName: String,
     },
     data () {
         return {

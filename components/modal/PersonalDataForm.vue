@@ -30,14 +30,14 @@
                             required>
                     </div>
                     <div class="d-flex flex-column col-12">
-                        <label for="cpf_cnpj">CPF/CNPJ <span class="required-signal">*</span></label>
+                        <label for="cpf-cnpj">CPF/CNPJ <span class="required-signal">*</span></label>
                         <input
-                            id="cpf_cnpj"
+                            id="cpf-cnpj"
                             v-model="customerData.registrationNumber"
                             type="text"
-                            name="cpf_cnpj"
+                            name="cpf-cnpj"
                             placeholder="Digite seu CPF ou CNPJ"
-                            maxlength="14"
+                            maxlength="18"
                             required>
                     </div>
                     <div class="d-flex flex-column col-12">
@@ -47,6 +47,7 @@
                             v-model="customerData.phone"
                             type="tel"
                             name="phone"
+                            maxlength="13"
                             placeholder="Digite seu número do WhatsApp"
                             required>
                     </div>
@@ -80,6 +81,18 @@ export default {
             }
         };
     },
+    watch: {
+        'customerData.registrationNumber': function (newVal, oldVal) {
+            if (newVal !== oldVal) {
+                this.formatCpfCnpj();
+            }
+        },
+        'customerData.phone': function (newVal) {
+            if (newVal) {
+                this.formatPhone();
+            }
+        }
+    },
     methods: {
         closeModal ({ target, currentTarget}) {
             if(target === currentTarget) {
@@ -100,6 +113,32 @@ export default {
         nextStep () {
             this.$emit('nextStep');
         },
+        formatCpfCnpj () {
+            let value = this.customerData.registrationNumber;
+            value = value.replace(/\D/g, ''); // Remove tudo o que não é dígito
+
+            if (value.length <= 11) {
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            } else {
+                value = value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+            }
+
+            this.customerData.registrationNumber = value;
+        },
+        formatPhone () {
+            let value = this.customerData.phone;
+            value = value.replace(/\D/g, ''); // Remove tudo o que não é dígito
+
+            if (value.length === 11) { // Formato com 9 dígitos (celular)
+                value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+            } else if (value.length === 10) { // Formato com 8 dígitos (fixo)
+                value = value.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3');
+            }
+
+            this.customerData.phone = value;
+        }
     }
 };
 </script>

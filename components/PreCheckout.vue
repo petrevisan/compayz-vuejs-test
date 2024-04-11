@@ -26,10 +26,10 @@
 export default {
     name: 'PreCheckout',
     props: {
-        extraDomainsSelected: 0,
-        planName: '',
-        planPrice: 0,
-        extraDomains: 0,
+        extraDomainsSelected: Number,
+        planName: String,
+        planPrice: Number,
+        extraDomains: Number,
     },
     data () {
         return {
