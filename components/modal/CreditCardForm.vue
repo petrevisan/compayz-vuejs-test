@@ -28,6 +28,8 @@
                             name="card-number"
                             placeholder="Digite o número do seu cartão (frente do cartão)"
                             required>
+                        <span v-if="submitted && !$v.cardNumber.required" class="error-message">O número do cartão é obrigatório.</span>
+
                     </div>
 
                     <div class="d-flex flex-column col-12">
@@ -39,6 +41,8 @@
                             name="card-owner"
                             placeholder="Nome (igual ao cartão)"
                             required>
+                        <span v-if="submitted && !$v.cardOwner.required" class="error-message">O nome do titular é obrigatório.</span>
+
                     </div>
 
                     <div class="d-flex flex-column col-12">
@@ -51,6 +55,8 @@
                             name="card-registration-number"
                             placeholder="Digite o CPF ou CNPJ do titular do cartão"
                             required>
+                        <span v-if="submitted && !$v.cardRegistrationNumber.required" class="error-message">CPF ou CNPJ é obrigatório.</span>
+                        <span v-if="submitted && !$v.cardRegistrationNumber.isCpfCnpjValid" class="error-message">CPF ou CNPJ é obrigatório.</span>
                     </div>
 
                     <div class="d-flex flex-row">
@@ -64,6 +70,8 @@
                                 name="expiration-date"
                                 placeholder="MM/AAAA"
                                 required>
+                            <span v-if="submitted && !$v.expirationDate.required" class="error-message">A validade é obrigatória.</span>
+
                         </div>
                         <div class="col-5">
                             <label for="cvv">CVV <span class="required-signal">*</span></label>
@@ -75,12 +83,14 @@
                                 name="cvv"
                                 placeholder="CVV"
                                 required>
+                            <span v-if="submitted && !$v.cardNumber.required" class="error-message">O código de segurança é obrigatório.</span>
+
                         </div>
                     </div>
                 </form>
             </div>
             <div id="button-wrapper">
-                <b-button variant="primary" class="next-step-button modal-submit" @click="setPaymentInfo">Assinar Plano ({{ totalPrice }})</b-button>
+                <b-button variant="primary" class="next-step-button modal-submit" @click="validateCardData">Assinar Plano ({{ totalPrice }})</b-button>
             </div>
         </section>
     </div>
@@ -101,6 +111,7 @@ export default {
             cardRegistrationNumber: '',
             expirationDate: '',
             securityCode: '',
+            submitted: false,
         };
     },
     validations: {
@@ -134,6 +145,14 @@ export default {
                 securityCode: this.securityCode,
             });
         },
+        validateCardData () {
+            this.submitted = true;
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                return;
+            }
+            this.setPaymentInfo();
+        },
         updateCpfCnpj () {
             const cleanValue = this.cardRegistrationNumber.replace(/\D+/g, '');
             const length = cleanValue.length;
@@ -143,21 +162,6 @@ export default {
                 this.maskCpfCnpj = '##.###.###/####-##';
             }
         },
-        /* formatCpfCnpj (value) {
-            value = value.replace(/\D/g, ''); // Remove tudo o que não é dígito
-
-            if (value.length <= 11) {
-                // Formatação para CPF
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            } else {
-                // Formatação para CNPJ
-                value = value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
-            }
-
-            return value;
-        } */
     }
 };
 </script>
