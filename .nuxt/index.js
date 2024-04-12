@@ -17,6 +17,8 @@ import nuxt_plugin_plugin_08cc1876 from 'nuxt_plugin_plugin_08cc1876' // Source:
 import nuxt_plugin_bootstrapvue_0aa856bb from 'nuxt_plugin_bootstrapvue_0aa856bb' // Source: ./bootstrap-vue.js (mode: 'all')
 import nuxt_plugin_axios_6ea6c48c from 'nuxt_plugin_axios_6ea6c48c' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vuepaycard_11d6cedc from 'nuxt_plugin_vuepaycard_11d6cedc' // Source: ../plugins/vue-paycard.js (mode: 'client')
+import nuxt_plugin_vuelidate_0f19c03d from 'nuxt_plugin_vuelidate_0f19c03d' // Source: ../plugins/vuelidate (mode: 'all')
+import nuxt_plugin_vmask_3c04b27e from 'nuxt_plugin_vmask_3c04b27e' // Source: ../plugins/v-mask.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -228,6 +230,14 @@ async function createApp(ssrContext, config = {}) {
 
   if (process.client && typeof nuxt_plugin_vuepaycard_11d6cedc === 'function') {
     await nuxt_plugin_vuepaycard_11d6cedc(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_vuelidate_0f19c03d === 'function') {
+    await nuxt_plugin_vuelidate_0f19c03d(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_vmask_3c04b27e === 'function') {
+    await nuxt_plugin_vmask_3c04b27e(app.context, inject)
   }
 
   // Lock enablePreview in context

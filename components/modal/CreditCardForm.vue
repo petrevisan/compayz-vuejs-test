@@ -9,7 +9,18 @@
             <div class="form-wrapper">
                 <form class="d-block mx-auto">
                     <div class="d-flex flex-column col-12">
-                        <img src="/images/card.webp" class="img-fluid pb-3">
+                        <img src="/images/pay-card-background.jpg" class="img-fluid pb-3">
+                        <!-- <VuePayCard
+                            :value-fields="{
+                                cardName: '',
+                                cardNumber: `**** **** **** ${item.creditCardNumber}`,
+                                cardMonth: '',
+                                cardYear: '',
+                                cardCvv: '',
+                            }"
+                            :set-type="item.creditCardBrand?.toLowerCase()"
+                            background-image="~/static/images/pay-card-background.jpg"
+                        /> -->
                         <label for="card-number">Número do cartão <span class="required-signal">*</span></label>
                         <input
                             id="card-number"
@@ -76,11 +87,12 @@
 </template>
 
 <script>
-import PayCard from '@/components/PayCard.vue';
+// import VuePaycard from 'vue-paycard';
+
 export default {
     name: 'CreditCardForm',
     components: {
-        PayCard
+        // VuePaycard
     },
     props: {
         totalPrice: String,
@@ -91,7 +103,7 @@ export default {
             cardOwner: '',
             cardRegistrationNumber: '',
             expirationDate: '',
-            securityCode: ''
+            securityCode: '',
         };
     },
     watch: {

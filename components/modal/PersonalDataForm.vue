@@ -17,6 +17,7 @@
                             name="name"
                             placeholder="Coloque seu nome completo"
                             required>
+                        <span v-if="submitted && !$v.customerData.name.required" class="error-message">O nome é obrigatório.</span>
                     </div>
 
                     <div class="d-flex flex-column col-12">
@@ -28,28 +29,36 @@
                             name="email"
                             placeholder="Digite um e-mail válido"
                             required>
+                        <span v-if="submitted && !$v.customerData.mail.required" class="error-message">E-mail é obrigatório!</span>
+                        <span v-if="submitted && !$v.customerData.mail.email" class="error-message">E-mail inválido!</span>
+
                     </div>
                     <div class="d-flex flex-column col-12">
                         <label for="cpf-cnpj">CPF/CNPJ <span class="required-signal">*</span></label>
                         <input
                             id="cpf-cnpj"
                             v-model="customerData.registrationNumber"
+                            v-mask="maskCpfCnpj"
                             type="text"
                             name="cpf-cnpj"
                             placeholder="Digite seu CPF ou CNPJ"
-                            maxlength="18"
                             required>
+                        <span v-if="submitted && !$v.customerData.registrationNumber.required" class="error-message">CPF ou CNPJ é obrigatório.</span>
+                        <span v-if="submitted && !$v.customerData.registrationNumber.isCpfCnpjValid" class="error-message">CPF ou CNPJ é obrigatório.</span>
+
                     </div>
                     <div class="d-flex flex-column col-12">
                         <label for="phone">Telefone <span class="required-signal">*</span></label>
                         <input
                             id="phone"
                             v-model="customerData.phone"
+                            v-mask="'(##) #####-####'"
                             type="tel"
                             name="phone"
-                            maxlength="13"
                             placeholder="Digite seu número do WhatsApp"
                             required>
+                        <span v-if="submitted && !$v.customerData.phone.required" class="error-message">O telefone é obrigatório.</span>
+                        <span v-if="submitted && !$v.customerData.phone.isPhoneValid" class="error-message">Formato de telefone inválido.</span>
                     </div>
                 </form>
             </div>
@@ -65,6 +74,8 @@
     </div>
 </template>
 <script>
+import { email, required, helpers } from 'vuelidate/lib/validators';
+
 export default {
     name: 'PersonalData',
     data () {
@@ -78,24 +89,29 @@ export default {
             inputValidation: {
                 error: false,
                 errorMessage: '',
-            }
+            },
+            submitted: false,
         };
     },
+    validations: {
+        customerData: {
+            name: {required},
+            mail: {required, email},
+            registrationNumber: {
+                required,
+                isCpfCnpjValid: helpers.regex('isCpfCnpjValid', /^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})$/)
+            },
+            phone: {required, isPhoneValid: helpers.regex('isPhoneValid', /^\(\d{2}\) \d{5}-\d{4}$/)},
+        }
+    },
     watch: {
-        'customerData.registrationNumber': function (newVal, oldVal) {
-            if (newVal !== oldVal) {
-                this.formatCpfCnpj();
-            }
-        },
-        'customerData.phone': function (newVal) {
-            if (newVal) {
-                this.formatPhone();
-            }
+        'customerData.registrationNumber': function (newVal) {
+            this.updateCpfCnpj();
         }
     },
     methods: {
-        closeModal ({ target, currentTarget}) {
-            if(target === currentTarget) {
+        closeModal ({target, currentTarget}) {
+            if (target === currentTarget) {
                 this.$emit('closeModal');
             }
         },
@@ -111,33 +127,21 @@ export default {
             });
         },
         nextStep () {
+            this.submitted = true;
+            this.$v.$touch();
+            if (this.$v.$invalid) {
+                return;
+            }
             this.$emit('nextStep');
         },
-        formatCpfCnpj () {
-            let value = this.customerData.registrationNumber;
-            value = value.replace(/\D/g, ''); // Remove tudo o que não é dígito
-
-            if (value.length <= 11) {
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        updateCpfCnpj () {
+            const cleanValue = this.customerData.registrationNumber.replace(/\D+/g, '');
+            const length = cleanValue.length;
+            if (length <= 11) {
+                this.maskCpfCnpj = '###.###.###-##';
             } else {
-                value = value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+                this.maskCpfCnpj = '##.###.###/####-##';
             }
-
-            this.customerData.registrationNumber = value;
-        },
-        formatPhone () {
-            let value = this.customerData.phone;
-            value = value.replace(/\D/g, ''); // Remove tudo o que não é dígito
-
-            if (value.length === 11) { // Formato com 9 dígitos (celular)
-                value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
-            } else if (value.length === 10) { // Formato com 8 dígitos (fixo)
-                value = value.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3');
-            }
-
-            this.customerData.phone = value;
         }
     }
 };

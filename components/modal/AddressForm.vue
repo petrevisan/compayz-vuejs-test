@@ -19,6 +19,8 @@
                             maxlength="8"
                             required
                             @blur="getCepData(customerAddress.cep)" >
+                        <span v-if="submitted && !$v.customerAddress.addressNumber.cep" class="error-message">O CEP é obrigatório.</span>
+
                     </div>
                     <div class="d-flex flex-row col-12">
                         <div class="d-flex flex-column col-8 pl-0">
@@ -30,6 +32,8 @@
                                 name="street"
                                 placeholder="Rua"
                                 required >
+                            <span v-if="submitted && !$v.customerAddress.street.required" class="error-message">O nome da rua é obrigatório.</span>
+
                         </div>
                         <div class="d-flex flex-column col-4 pr-0">
                             <label for="address-number">Número <span class="required-signal">*</span></label>
@@ -40,6 +44,8 @@
                                 name="address-number"
                                 placeholder="Nº"
                                 required >
+                            <span v-if="submitted && !$v.customerAddress.addressNumber.required" class="error-message">O número é obrigatório.</span>
+
                         </div>
                     </div>
 
@@ -53,6 +59,7 @@
                                 name="neighborhood"
                                 placeholder="Bairro"
                                 required >
+                            <span v-if="submitted && !$v.customerAddress.neighborhood.required" class="error-message">O bairro é obrigatório.</span>
                         </div>
                         <div class="d-flex flex-column col-4 px-1">
                             <label for="street">Cidade <span class="required-signal">*</span></label>
@@ -63,6 +70,8 @@
                                 name="city"
                                 placeholder="Cidade"
                                 required >
+                            <span v-if="submitted && !$v.customerAddress.city.required" class="error-message">A cidade é obrigatório.</span>
+
                         </div>
                         <div class="d-flex flex-column col-4 pr-0">
                             <label for="street">Estado <span class="required-signal">*</span></label>
@@ -73,6 +82,8 @@
                                 name="state"
                                 placeholder="Estado"
                                 required >
+                            <span v-if="submitted && !$v.customerAddress.state.required" class="error-message">O estado é obrigatório.</span>
+
                         </div>
                     </div>
 
@@ -94,6 +105,8 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators';
+
 export default {
     name: 'AddressModal',
     data () {
@@ -106,8 +119,19 @@ export default {
                 city: '',
                 state: '',
             },
-            viaCepReturn: {}
+            viaCepReturn: {},
+            submitted: false
         };
+    },
+    validations: {
+        customerAddress: {
+            cep: { required },
+            street: { required },
+            addressNumber: { required },
+            neighborhood: { required },
+            city: { required },
+            state: { required },
+        }
     },
     methods: {
         closeModal ({target, currentTarget}) {
@@ -134,6 +158,11 @@ export default {
             }
         },
         personalDataFilledIn () {
+            this.submitted = true;
+            this.$v.$touch();
+            if(this.$v.$invalid) {
+                return;
+            }
             this.$emit('addressFilledIn');
         },
         setAddressData () {

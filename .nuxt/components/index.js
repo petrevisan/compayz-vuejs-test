@@ -1,4 +1,3 @@
-export { default as PayCard } from '../../components/PayCard.vue'
 export { default as PlanDetails } from '../../components/PlanDetails.vue'
 export { default as PlansList } from '../../components/PlansList.vue'
 export { default as PreCheckout } from '../../components/PreCheckout.vue'

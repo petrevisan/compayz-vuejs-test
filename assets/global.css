@@ -49,4 +49,9 @@ form {
     max-width: 500px;
 }
 
+.error-message {
+    color: red;
+    padding-block: 5px;
+}
+
 
