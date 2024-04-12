@@ -9,22 +9,21 @@
             <div class="form-wrapper">
                 <form class="d-block mx-auto">
                     <div class="d-flex flex-column col-12">
-                        <img src="/images/pay-card-background.jpg" class="img-fluid pb-3">
-                        <!-- <VuePayCard
+                        <vue-paycard
                             :value-fields="{
-                                cardName: '',
-                                cardNumber: `**** **** **** ${item.creditCardNumber}`,
+                                cardName: cardOwner,
+                                cardNumber: cardNumber,
                                 cardMonth: '',
                                 cardYear: '',
-                                cardCvv: '',
+                                cardCvv: securityCode,
                             }"
-                            :set-type="item.creditCardBrand?.toLowerCase()"
-                            background-image="~/static/images/pay-card-background.jpg"
-                        /> -->
+                            background-image="/images/pay-card-background.jpg"
+                        />
                         <label for="card-number">Número do cartão <span class="required-signal">*</span></label>
                         <input
                             id="card-number"
-                            v-model.lazy="cardNumber"
+                            v-model="cardNumber"
+                            v-mask="'#### #### #### ####'"
                             type="text"
                             name="card-number"
                             placeholder="Digite o número do seu cartão (frente do cartão)"
@@ -35,7 +34,7 @@
                         <label for="card-owner">Titular do cartão <span class="required-signal">*</span></label>
                         <input
                             id="card-owner"
-                            v-model.lazy="cardOwner"
+                            v-model="cardOwner"
                             type="text"
                             name="card-owner"
                             placeholder="Nome (igual ao cartão)"
@@ -47,7 +46,7 @@
                         <input
                             id="card-registration-number"
                             v-model="cardRegistrationNumber"
-                            maxlength="18"
+                            v-mask="maskCpfCnpj"
                             type="text"
                             name="card-registration-number"
                             placeholder="Digite o CPF ou CNPJ do titular do cartão"
@@ -59,8 +58,8 @@
                             <label for="expiration-date">Validade <span class="required-signal">*</span></label>
                             <input
                                 id="expiration-date"
-                                v-model.lazy="expirationDate"
-                                maxlength="6"
+                                v-model="expirationDate"
+                                v-mask="'##/####'"
                                 type="text"
                                 name="expiration-date"
                                 placeholder="MM/AAAA"
@@ -70,7 +69,8 @@
                             <label for="cvv">CVV <span class="required-signal">*</span></label>
                             <input
                                 id="cvv"
-                                v-model.lazy="securityCode"
+                                v-model="securityCode"
+                                v-mask="'###'"
                                 type="text"
                                 name="cvv"
                                 placeholder="CVV"
@@ -87,13 +87,10 @@
 </template>
 
 <script>
-// import VuePaycard from 'vue-paycard';
+import { helpers, required } from 'vuelidate/lib/validators';
 
 export default {
     name: 'CreditCardForm',
-    components: {
-        // VuePaycard
-    },
     props: {
         totalPrice: String,
     },
@@ -106,11 +103,17 @@ export default {
             securityCode: '',
         };
     },
+    validations: {
+        cardNumber: { required },
+        cardOwner: { required },
+        cardRegistrationNumber: { required, isCpfCnpjValid: helpers.regex('isCpfCnpjValid', /^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})$/)
+        },
+        expirationDate: { required },
+        securityCode: { required }
+    },
     watch: {
-        cardRegistrationNumber (newVal, oldVal) {
-            if (newVal !== oldVal) {
-                this.cardRegistrationNumber = this.formatCpfCnpj(newVal);
-            }
+        'cardRegistrationNumber': function (newVal) {
+            this.updateCpfCnpj();
         }
     },
     methods: {
@@ -131,7 +134,16 @@ export default {
                 securityCode: this.securityCode,
             });
         },
-        formatCpfCnpj (value) {
+        updateCpfCnpj () {
+            const cleanValue = this.cardRegistrationNumber.replace(/\D+/g, '');
+            const length = cleanValue.length;
+            if (length <= 11) {
+                this.maskCpfCnpj = '###.###.###-##';
+            } else {
+                this.maskCpfCnpj = '##.###.###/####-##';
+            }
+        },
+        /* formatCpfCnpj (value) {
             value = value.replace(/\D/g, ''); // Remove tudo o que não é dígito
 
             if (value.length <= 11) {
@@ -145,7 +157,7 @@ export default {
             }
 
             return value;
-        }
+        } */
     }
 };
 </script>

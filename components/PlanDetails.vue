@@ -12,7 +12,8 @@
             <div class="d-flex flex-row justify-content-between">
                 <span class="text-white">Adicionar pacotes avulsos</span>
                 <div class="d-flex flex-column align-items-md-center">
-                    <span class="text-white">+ {{ extraDomains }} inclusos</span>
+                    <span>3</span>
+                    <span v-if="extraDomains > 1" class="text-white">+ {{ extraDomains }} inclusos</span>
                     <input
                         v-model="extraDomains"
                         type="range"

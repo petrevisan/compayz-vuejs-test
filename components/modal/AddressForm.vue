@@ -12,11 +12,11 @@
                         <label for="cep">CEP <span class="required-signal">*</span></label>
                         <input
                             id="cep"
-                            v-model.lazy="customerAddress.cep"
+                            v-model="customerAddress.cep"
+                            v-mask="'#####-###'"
                             type="text"
                             name="cep"
                             placeholder="00000-000"
-                            maxlength="8"
                             required
                             @blur="getCepData(customerAddress.cep)" >
                         <span v-if="submitted && !$v.customerAddress.addressNumber.cep" class="error-message">O CEP é obrigatório.</span>
@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required, helpers } from 'vuelidate/lib/validators';
 
 export default {
     name: 'AddressModal',
@@ -125,7 +125,7 @@ export default {
     },
     validations: {
         customerAddress: {
-            cep: { required },
+            cep: { required, isCepValid: helpers.regex('isCepValid', /^\d{5}-?\d{3}$/) },
             street: { required },
             addressNumber: { required },
             neighborhood: { required },
