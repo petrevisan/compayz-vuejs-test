@@ -1,4 +1,6 @@
 export default {
+    target: 'static',
+
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
         title: 'compayz-test',
@@ -44,6 +46,5 @@ export default {
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
-        outputDir: 'public'
     }
 };
