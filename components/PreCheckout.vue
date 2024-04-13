@@ -2,7 +2,7 @@
     <div>
         <div id="plan-price">
             <div id="your-choice">
-                <h2 class="text-white px-3 font">Sua escolha</h2>
+                <h2 class="text-white p-3 font text-center text-lg-left">Sua escolha</h2>
             </div>
             <div id="chosen-plan" class="d-flex flex-row justify-content-between px-3">
                 <div class="d-flex flex-column">
@@ -86,5 +86,11 @@ export default {
 .font {
   font-size: 22px;
   font-weight: bold;
+}
+
+@media(max-width:1024px) {
+  #sign-button {
+    width: 90%;
+  }
 }
 </style>

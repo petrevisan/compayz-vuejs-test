@@ -1,16 +1,16 @@
 <template>
     <div id="wrapper">
         <b-container id="plans-wrapper" fluid>
-            <b-row class="my-3">
+            <b-row class="my-3 d-block mx-auto">
                 <b-col cols="12" class="d-block mx-auto">
                     <PlansList @getPlan4d="getPlan4dData" @getPlan5d="getPlan5dData"/>
                 </b-col>
             </b-row >
-            <b-row class="px-3">
-                <b-col id="" cols="8">
+            <b-row class="px-3 flex-column flex-md-row">
+                <b-col id="" cols="12" lg="8" class="mt-lg-4">
                     <PlanDetails :plan-name="planName" @setExtraDomains="getDomainsNumber"/>
                 </b-col>
-                <b-col cols="4">
+                <b-col cols="12" lg="4" class="mt-5 mt-lg-4">
                     <PreCheckout
                         :plan-name="planName"
                         :plan-price="basePlanValue"

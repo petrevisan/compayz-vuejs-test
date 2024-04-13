@@ -1,6 +1,6 @@
 <template>
     <div id="modal-container" fluid @click="closeModal">
-        <section id="modal" class="container">
+        <section id="modal" class="container col-10">
             <div id="form-header" class="d-flex flex-row justify-content-around align-items-center">
                 <img src="/icons/left-arrow.svg" class="icon" @click="closeModalX">
                 <h2 id="form-headline" class="text-white">Informe seus dados pessoais</h2>

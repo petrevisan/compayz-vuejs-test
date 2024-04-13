@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 d-block mx-auto">
+    <div class="col-12 d-flex flex-column flex-md-row">
         <b-button
             v-for="plan in availablePlans"
             id="planButton"
@@ -47,13 +47,20 @@ export default {
 <style scoped>
 
 #planButton {
-  width: calc(100% / 5.5);
+  width: 20%;
   background: transparent;
   border: 1px solid #fff;
   border-radius: 12px;
   color: #fff;
   padding: 12px 20px;
   margin-inline: 10px;
+}
+
+@media(max-width:768px) {
+  #planButton {
+    width: 100%;
+    margin-block: 10px;
+  }
 }
 
 </style>

@@ -83,7 +83,7 @@
                                 name="cvv"
                                 placeholder="CVV"
                                 required>
-                            <span v-if="submitted && !$v.cardNumber.required" class="error-message">O código de segurança é obrigatório.</span>
+                            <span v-if="submitted && !$v.securityCode.required" class="error-message">O código de segurança é obrigatório.</span>
 
                         </div>
                     </div>
