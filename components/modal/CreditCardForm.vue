@@ -3,7 +3,7 @@
         <section id="modal" class="container">
             <div id="header-wrapper" class="d-flex flex-row justify-content-around align-items-center">
                 <img src="/icons/left-arrow.svg" class="icon" @click="getPreviousForm">
-                <h2 class="text-white">Informe seus dados do cartão</h2>
+                <h2 class="modal-title">Informe seus dados do cartão</h2>
                 <img src="/icons/close-icon.svg" class="icon" @click="closeModal">
             </div>
             <div class="form-wrapper">
@@ -220,6 +220,12 @@ export default {
 .next-step-button {
   width: 78%;
   font-weight: bold;
+}
+
+@media(max-width: 768px) {
+  #modal {
+    max-width: 90vw;
+  }
 }
 </style>
 

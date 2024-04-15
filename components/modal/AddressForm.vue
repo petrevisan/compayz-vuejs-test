@@ -3,7 +3,7 @@
         <section id="address-modal" class="container">
             <div class="header-wrapper d-flex flex-row justify-content-around align-items-center">
                 <img src="icons/left-arrow.svg" class="icon" @click="getPreviousForm">
-                <h2>Informe seu endereço</h2>
+                <h2 class="modal-title">Informe seu endereço</h2>
                 <img src="icons/close-icon.svg" class="icon" @click="closeModalX" >
             </div>
             <div class="form-wrapper">
@@ -230,5 +230,18 @@ export default {
   padding-block: 20px;
 }
 
+@media(max-width:768px) {
+  #address-modal {
+    max-width: 90vw;
+  }
+
+  .form-wrapper {
+    padding-inline: 20px;
+  }
+
+  .modal-title {
+    font-size: 20px !important;
+  }
+}
 
 </style>

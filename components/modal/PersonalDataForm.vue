@@ -1,9 +1,9 @@
 <template>
     <div id="modal-container" fluid @click="closeModal">
-        <section id="modal" class="container col-10">
+        <section id="personal-modal" class="container col-10">
             <div id="form-header" class="d-flex flex-row justify-content-around align-items-center">
                 <img src="/icons/left-arrow.svg" class="icon" @click="closeModalX">
-                <h2 id="form-headline" class="text-white">Informe seus dados pessoais</h2>
+                <h2 id="" class="text-center modal-title">Informe seus dados pessoais</h2>
                 <img src="/icons/close-icon.svg" class="icon" @click="closeModalX">
             </div>
             <div id="" class="form-wrapper">
@@ -167,7 +167,7 @@ export default {
   background: rgba(0, 0, 0, .5);
 }
 
-#modal {
+#personal-modal {
   max-width: 600px;
   background: #2B2E3B;
   padding: 0;
@@ -184,11 +184,6 @@ export default {
   border-bottom: 1px solid #ffffff20;
 }
 
-#form-header h2 {
-  font-size: 24px;
-  padding-top: 10px;
-}
-
 .form-wrapper {
   padding-block: 20px 40px;
 }
@@ -200,5 +195,12 @@ export default {
 #go-to-address {
   width: 78%;
   margin-block: 20px;
+}
+
+@media(max-width:768px) {
+  #personal-modal {
+    max-width: 90vw;
+    padding-inline: 20px;
+  }
 }
 </style>
