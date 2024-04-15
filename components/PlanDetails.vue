@@ -9,7 +9,7 @@
         </div>
         <div class="plan-included d-flex flex-row p-3">
             <div class="d-flex flex-column justify-content-center col-6 col-lg-9 p-0 pt-lg-4">
-                <span class="text-left font">Domínios</span>
+                <span class="text-left font pt-3">Domínios</span>
                 <span class="text-left col-12 p-0 minor-fonts">Adicionar pacotes avulsos</span>
             </div>
             <div class="d-flex flex-column justify-content-end align-items-center col-6 col-lg-3">

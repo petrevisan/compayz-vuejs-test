@@ -1,4 +1,7 @@
 {
+  "AlertBox": {
+    "description": "Auto imported from components/AlertBox.vue"
+  },
   "PlanDetails": {
     "description": "Auto imported from components/PlanDetails.vue"
   },

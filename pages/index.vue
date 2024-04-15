@@ -3,7 +3,7 @@
         <b-container id="plans-wrapper" fluid>
             <b-row class="my-3 d-block mx-auto">
                 <b-col cols="12" class="d-block mx-auto">
-                    <PlansList @getPlan4d="getPlan4dData" @getPlan5d="getPlan5dData"/>
+                    <PlansList @getPlan4d="getPlan4dData" @getPlan5d="getPlan5dData" @planUnavailable="showUnavailableAlert"/>
                 </b-col>
             </b-row >
             <b-row class="px-3 flex-column flex-md-row">
@@ -20,6 +20,7 @@
                 </b-col>
             </b-row>
         </b-container>
+        <AlertBox v-if="planUnavailable"></AlertBox>
         <PersonalDataForm v-if="isPlanSelected" @closeModal="isPlanSelected = false" @nextStep="nextStep"></PersonalDataForm>
         <AddressForm v-if="isDataFilledIn" @closeModal="isDataFilledIn = false" @addressFilledIn="openCardModal" @getPreviousForm="getBackAddresToData"></AddressForm>
         <CreditCardForm v-if="isCardFilledIn" :total-price="totalPrice" @closeModal="isCardFilledIn = false" @getBackPreviousForm="getBackCardToAddress"></CreditCardForm>
@@ -33,6 +34,7 @@ import PersonalDataForm from '@/components/modal/PersonalDataForm.vue';
 import AddressForm from '@/components/modal/AddressForm.vue';
 import CreditCardForm from '@/components/modal/CreditCardForm.vue';
 import PreCheckout from '@/components/PreCheckout.vue';
+import AlertBox from '@/components/AlertBox.vue';
 import plano4d from '@/static/plans/plans_details/plan1.json';
 import plano5d from '@/static/plans/plans_details/plan2.json';
 
@@ -46,6 +48,7 @@ export default {
         PersonalDataForm,
         AddressForm,
         CreditCardForm,
+        AlertBox
     },
     data () {
         return {
@@ -55,6 +58,7 @@ export default {
             isCardFilledIn: false,
             planName: '',
             basePlanValue: 0,
+            planUnavailable: false,
         };
     },
     computed: {
@@ -98,8 +102,13 @@ export default {
         },
         getDomainsNumber (settedDomains) {
             this.extraDomainsSelected = settedDomains;
+        },
+        showUnavailableAlert () {
+            this.planUnavailable = true;
+            setTimeout(() => {
+                this.planUnavailable = false;
+            }, 2000);
         }
-
     }
 };
 </script>

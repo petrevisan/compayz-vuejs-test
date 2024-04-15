@@ -39,8 +39,17 @@ export default {
             case 2:
                 this.$emit('getPlan5d');
                 break;
+            case 3:
+                this.$emit('planUnavailable');
+                break;
+            case 4:
+                this.$emit('planUnavailable');
+                break;
+            case 5:
+                this.$emit('planUnavailable');
+                break;
             default:
-                console.log('plano diverso');
+                this.$emit('getPlan4d');
             }
         }
     }

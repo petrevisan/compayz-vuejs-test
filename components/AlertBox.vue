@@ -8,6 +8,35 @@
 
 <script>
 export default {
-  name: 'AlertBox'
-}
+    name: 'AlertBox'
+};
 </script>
+
+<style>
+@keyframes showOut {
+  0%, 100% {
+    opacity: 0;
+    filter: blur(20px);
+    transform: translatey(20px);
+  }
+
+  25%, 75% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+#alert {
+  background: red;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 12px;
+  border: none;
+  width: 300px;
+  text-align: center;
+  position: absolute;
+  top: 90%;
+  right: 5%;
+  animation: showOut 2s forwards;
+}
+</style>
