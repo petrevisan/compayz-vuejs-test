@@ -34,9 +34,15 @@ export default {
   border: none;
   width: 300px;
   text-align: center;
-  position: absolute;
+  position: fixed;
   top: 90%;
   right: 5%;
   animation: showOut 2s forwards;
+}
+
+@media(max-width:768px) {
+  #alert {
+    position: fixed;
+  }
 }
 </style>
