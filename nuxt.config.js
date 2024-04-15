@@ -47,4 +47,15 @@ export default {
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
     },
+
+    security: {
+        corsHandler: {
+            origin: '*', // Permitir todas as origens
+            methods: ['GET', 'POST', 'DELETE', 'PUT'], // Métodos HTTP permitidos
+            allowHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+            exposeHeaders: ['Content-Length', 'X-Knowledge'], // Cabeçalhos expostos
+            credentials: true, // Permitir cookies e autenticação
+            maxAge: '86400', // Tempo máximo que a resposta pode ser cacheada
+        }
+    },
 };
