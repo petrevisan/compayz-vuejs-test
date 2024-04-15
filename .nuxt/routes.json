@@ -3,6 +3,7 @@
     "name": "index",
     "path": "/",
     "component": "/home/petrevisan/Documents/GitHub/compayz-vuejs-test/pages/index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_60505cd2"
   }
 ]
