@@ -33,6 +33,9 @@ import PersonalDataForm from '@/components/modal/PersonalDataForm.vue';
 import AddressForm from '@/components/modal/AddressForm.vue';
 import CreditCardForm from '@/components/modal/CreditCardForm.vue';
 import PreCheckout from '@/components/PreCheckout.vue';
+import plano4d from '@/static/plans/plans_details/plan1.json';
+import plano5d from '@/static/plans/plans_details/plan2.json';
+
 
 export default {
     name: 'IndexPage',
@@ -75,12 +78,12 @@ export default {
             this.isCardFilledIn = false;
         },
         async getPlan4dData () {
-            const plano4d = await this.$axios.$get('https://compayz-vuejs-test-ecru.vercel.app/plans/plans_details/plan1.json');
+            // const plano4d = await this.$axios.$get('https://compayz-vuejs-test-ecru.vercel.app/plans/plans_details/plan1.json');
             this.planName = plano4d.data.planInfo.name;
             this.basePlanValue = plano4d.data.planInfo.planBaseAmt;
         },
         async getPlan5dData () {
-            const plano5d = await this.$axios.$get('https://compayz-vuejs-test-ecru.vercel.app/plans/plans_details/plan2.json');
+            // const plano5d = await this.$axios.$get('https://compayz-vuejs-test-ecru.vercel.app/plans/plans_details/plan2.json');
             this.planName = plano5d.data.planInfo.name;
             this.basePlanValue = plano5d.data.planInfo.planBaseAmt;
         },
@@ -95,7 +98,6 @@ export default {
         },
         getDomainsNumber (settedDomains) {
             this.extraDomainsSelected = settedDomains;
-            console.log(this.extraDomainsSelected);
         }
 
     }
