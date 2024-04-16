@@ -26,7 +26,7 @@ export default {
 
     },
     methods: {
-        async getAvailablePlans () {
+        getAvailablePlans () {
             // const allPlans = await this.$axios.$get('https://compayz-vuejs-test-ecru.vercel.app/plans/available-plans.json');
             this.availablePlans = allPlans.data.activePlans;
             console.log(allPlans.data.activePlans);
