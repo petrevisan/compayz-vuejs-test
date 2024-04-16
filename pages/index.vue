@@ -106,7 +106,7 @@ export default {
             this.planUnavailable = true;
             setTimeout(() => {
                 this.planUnavailable = false;
-            }, 2000);
+            }, 2500);
         }
     }
 };

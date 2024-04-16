@@ -23,7 +23,7 @@ Para executar este projeto localmente, siga os passos abaixo:
 
 1. Clone o repositório para sua máquina local:
 
-    `git clone https://github.com/petrevisan/compayz-vuejs-test.git`
+    `git clone https://notyped-vuejs-test.vercel.app/`
 
 2. Execute o projeto:
 
