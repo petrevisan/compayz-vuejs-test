@@ -172,7 +172,7 @@ export default {
   background: #2B2E3B;
   padding: 0;
   border-radius: 12px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

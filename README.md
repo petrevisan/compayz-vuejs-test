@@ -6,8 +6,7 @@ Este projeto é uma solução para o desafio proposto para a vaga de front-end j
 
 - Vue.js 2
 - Nuxt.js
-- Bootstrap para Vue.js
-- Axios para chamadas API
+- Bootstrap
 
 ## Funcionalidades
 

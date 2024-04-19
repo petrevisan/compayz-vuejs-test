@@ -29,7 +29,7 @@ export default {
         getAvailablePlans () {
             // const allPlans = await this.$axios.$get('https://compayz-vuejs-test-ecru.vercel.app/plans/available-plans.json');
             this.availablePlans = allPlans.data.activePlans;
-            console.log(allPlans.data.activePlans);
+            // console.log(allPlans.data.activePlans);
         },
         setPlan (planId) {
             switch(planId) {
@@ -71,6 +71,8 @@ export default {
   #planButton {
     width: 100%;
     margin-block: 10px;
+    display: block;
+    margin-inline: auto;
   }
 }
 

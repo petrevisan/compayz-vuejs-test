@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="plan-included d-flex flex-column mb-3 mb-md-0 py-4">
-            <h2 class="pb-3 pl-lg-3">O {{ planName }} irá incluir</h2>
+            <h2 class="pb-3 pl-2">O {{ planName }} irá incluir</h2>
             <div class="d-flex flex-row">
                 <span class="col-6 col-lg-9 minor-fonts">MemberZ</span>
                 <span class="col-6 col-lg-3 text-center minor-fonts">1</span>
