@@ -7,6 +7,7 @@ export default {
         htmlAttrs: {
             lang: 'en'
         },
+
         meta: [
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -30,6 +31,9 @@ export default {
         '~/plugins/v-mask.js'
     ],
 
+    env: {
+        baseURL: process.env.NODE_ENV === 'production' ? 'https://notyped-vuejs-test.vercel.app' : 'https://notyped-vuejs-test.vercel.app'
+    },
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
 
