@@ -33,7 +33,6 @@ export default {
             switch(planId) {
             case 1:
                 this.$emit('getPlan4d');
-                console.log('apagar')
                 break;
             case 2:
                 this.$emit('getPlan5d');
