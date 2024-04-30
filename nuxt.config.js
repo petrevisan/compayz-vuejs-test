@@ -33,9 +33,6 @@ export default {
         '~/plugins/v-mask.js'
     ],
 
-    env: {
-        baseURL: process.env.NODE_ENV === 'production' ? 'https://notyped-vuejs-test.vercel.app' : 'https://notyped-vuejs-test.vercel.app'
-    },
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
 
@@ -59,10 +56,10 @@ export default {
     },
     axios: {
         // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-        baseURL: '/'
+        browserBaseURL: '/'
     },
 
-    security: {
+    /* security: {
         corsHandler: {
             origin: '*', // Permitir todas as origens
             methods: ['GET', 'POST', 'DELETE', 'PUT'], // Métodos HTTP permitidos
@@ -71,5 +68,5 @@ export default {
             credentials: true, // Permitir cookies e autenticação
             maxAge: '86400', // Tempo máximo que a resposta pode ser cacheada
         }
-    },
+    }, */
 };

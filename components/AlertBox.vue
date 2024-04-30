@@ -13,7 +13,7 @@ export default {
 </script>
 
 <style>
-@keyframes showOut {
+@keyframes showUp {
   0%, 100% {
     opacity: 0;
     filter: blur(20px);
@@ -37,7 +37,7 @@ export default {
   position: fixed;
   top: 90%;
   right: 5%;
-  animation: showOut 2s forwards;
+  animation: showUp 2s forwards;
 }
 
 @media(max-width:768px) {

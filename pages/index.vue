@@ -23,7 +23,7 @@
         <AlertBox v-if="planUnavailable"></AlertBox>
         <PersonalDataForm v-if="isPlanSelected" @closeModal="isPlanSelected = false" @nextStep="nextStep"></PersonalDataForm>
         <AddressForm v-if="isDataFilledIn" @closeModal="isDataFilledIn = false" @addressFilledIn="openCardModal" @getPreviousForm="getBackAddresToData"></AddressForm>
-        <CreditCardForm v-if="isCardFilledIn" :total-price="totalPrice" @closeModal="isCardFilledIn = false" @getBackPreviousForm="getBackCardToAddress"></CreditCardForm>
+        <CreditCardForm v-if="isCardFilledIn" :total-price="brlPrice" @closeModal="isCardFilledIn = false" @getBackPreviousForm="getBackCardToAddress"></CreditCardForm>
     </div>
 </template>
 
@@ -61,7 +61,7 @@ export default {
         };
     },
     computed: {
-        totalPrice () {
+        brlPrice () {
             const price = this.basePlanValue + (this.extraDomainsSelected * 5);
             return price.toLocaleString('pt-BR', {style: 'currency', currency:'BRL'});
         },
