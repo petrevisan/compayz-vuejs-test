@@ -16,50 +16,45 @@ export default {
     name: 'PlansList',
     data () {
         return {
-            availablePlans: [],
-            showPlanContent: {},
-            allPlans: {
-                'data': {
-                    'activePlans': [
-                        {
-                            'id': 1,
-                            'seqno': 10,
-                            'name': 'Plano 4D'
-                        },
-                        {
-                            'id': 2,
-                            'seqno': 20,
-                            'name': 'Plano 5D'
-                        },
-                        {
-                            'id': 3,
-                            'seqno': 30,
-                            'name': 'Plano 6D'
-                        },
-                        {
-                            'id': 4,
-                            'seqno': 40,
-                            'name': 'Plano 7D'
-                        },
-                        {
-                            'id': 5,
-                            'seqno': 50,
-                            'name': 'SPACE'
-                        }
-                    ]
+            availablePlans: [
+                {
+                    'id': 1,
+                    'seqno': 10,
+                    'name': 'Plano 4D'
+                },
+                {
+                    'id': 2,
+                    'seqno': 20,
+                    'name': 'Plano 5D'
+                },
+                {
+                    'id': 3,
+                    'seqno': 30,
+                    'name': 'Plano 6D'
+                },
+                {
+                    'id': 4,
+                    'seqno': 40,
+                    'name': 'Plano 7D'
+                },
+                {
+                    'id': 5,
+                    'seqno': 50,
+                    'name': 'SPACE'
                 }
-            }
+            ],
+            showPlanContent: {},
         };
     },
-    created () {
-        this.getAvailablePlans();
+    mounted () {
+        // this.getAvailablePlans();
         this.setPlan(1);
 
     },
     methods: {
-        getAvailablePlans () {
+        /* getAvailablePlans () {
             this.availablePlans = this.allPlans.data.activePlans;
-        },
+        }, */
         setPlan (planId) {
             switch(planId) {
             case 1:
