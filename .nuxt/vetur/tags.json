@@ -2,6 +2,9 @@
   "AlertBox": {
     "description": "Auto imported from components/AlertBox.vue"
   },
+  "LoadingBox": {
+    "description": "Auto imported from components/LoadingBox.vue"
+  },
   "PlanDetails": {
     "description": "Auto imported from components/PlanDetails.vue"
   },

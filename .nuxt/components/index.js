@@ -1,4 +1,5 @@
 export { default as AlertBox } from '../../components/AlertBox.vue'
+export { default as LoadingBox } from '../../components/LoadingBox.vue'
 export { default as PlanDetails } from '../../components/PlanDetails.vue'
 export { default as PlansList } from '../../components/PlansList.vue'
 export { default as PreCheckout } from '../../components/PreCheckout.vue'

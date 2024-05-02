@@ -37,7 +37,6 @@ import PreCheckout from '@/components/PreCheckout.vue';
 import AlertBox from '@/components/AlertBox.vue';
 import plano4d from '@/json/plan1.json';
 import plano5d from '@/json/plan2.json';
-
 export default {
     name: 'IndexPage',
     components: {
@@ -47,7 +46,7 @@ export default {
         PersonalDataForm,
         AddressForm,
         CreditCardForm,
-        AlertBox
+        AlertBox,
     },
     data () {
         return {

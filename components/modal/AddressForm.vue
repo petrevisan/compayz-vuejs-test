@@ -20,6 +20,7 @@
                             required
                             @blur="getCepData(customerAddress.cep)" >
                         <span v-if="submitted && !$v.customerAddress.addressNumber.cep" class="error-message">O CEP é obrigatório.</span>
+                        <span v-if="isCepFound" class="error-message">CEP não encontrado</span>
 
                     </div>
                     <div class="d-flex flex-row col-12">
@@ -101,14 +102,20 @@
                     @click="personalDataFilledIn(); setAddressData()">Próximo</b-button>
             </div>
         </section>
+        <LoadingBox v-if="waitingCepFetch"></LoadingBox>
     </div>
 </template>
 
 <script>
 import { required, helpers } from 'vuelidate/lib/validators';
+import LoadingBox from '@/components/LoadingBox.vue';
+
 
 export default {
     name: 'AddressModal',
+    components: {
+        LoadingBox
+    },
     data () {
         return {
             customerAddress: {
@@ -120,7 +127,9 @@ export default {
                 state: '',
             },
             viaCepReturn: {},
-            submitted: false
+            submitted: false,
+            waitingCepFetch: false,
+            isCepFound: false,
         };
     },
     validations: {
@@ -147,14 +156,24 @@ export default {
         },
         async getCepData (cep) {
             try {
+                this.waitingCepFetch = true;
                 const viacepReturn = await this.$axios.$get(`https://viacep.com.br/ws/${cep}/json/`);
                 this.customerAddress.street = viacepReturn.logradouro;
                 this.customerAddress.neighborhood = viacepReturn.bairro;
                 this.customerAddress.city = viacepReturn.localidade;
                 this.customerAddress.state = viacepReturn.uf;
+                if(!viacepReturn.erro) {
+                    this.isCepFound = false;
+                } else {
+                    this.isCepFound = true;
+                }
             }
             catch {
                 console.error('Erro');
+                this.isCepFound = true;
+            }
+            finally {
+                this.waitingCepFetch = false;
             }
         },
         personalDataFilledIn () {
