@@ -15,15 +15,15 @@
                         :plan-name="planName"
                         :plan-price="basePlanValue"
                         :extra-domains="extraDomainsSelected"
-                        @openDataModal="signPlan"
+                        @openDataModal="handleModal(1)"
                     />
                 </b-col>
             </b-row>
         </b-container>
         <AlertBox v-if="planUnavailable"></AlertBox>
-        <PersonalDataForm v-if="isPlanSelected" @closeModal="isPlanSelected = false" @nextStep="nextStep"></PersonalDataForm>
-        <AddressForm v-if="isDataFilledIn" @closeModal="isDataFilledIn = false" @addressFilledIn="openCardModal" @getPreviousForm="getBackAddresToData"></AddressForm>
-        <CreditCardForm v-if="isCardFilledIn" :total-price="brlPrice" @closeModal="isCardFilledIn = false" @getBackPreviousForm="getBackCardToAddress"></CreditCardForm>
+        <PersonalDataForm v-if="isPlanSelected" @closeModal="handleModal(0)" @nextStep="handleModal(2)"></PersonalDataForm>
+        <AddressForm v-if="isDataFilledIn" @closeModal="handleModal(0)" @addressFilledIn="handleModal(3)" @getPrevModal="handleModal(1)"></AddressForm>
+        <CreditCardForm v-if="isCardFilledIn" :total-price="valueToBRL" @closeModal="handleModal(0)" @getPrevModal="handleModal(2)"></CreditCardForm>
     </div>
 </template>
 
@@ -60,43 +60,19 @@ export default {
         };
     },
     computed: {
-        brlPrice () {
+        valueToBRL () {
             const price = this.basePlanValue + (this.extraDomainsSelected * 5);
             return price.toLocaleString('pt-BR', {style: 'currency', currency:'BRL'});
         },
     },
     methods: {
-        signPlan () {
-            this.isPlanSelected = true;
-        },
-        getBackAddresToData () {
-            this.isPlanSelected = true;
-            this.isDataFilledIn = false;
-            this.isCardFilledIn = false;
-        },
-        getBackCardToAddress () {
-            this.isPlanSelected = false;
-            this.isDataFilledIn = true;
-            this.isCardFilledIn = false;
-        },
         getPlan4dData () {
-            // const plano4d = await this.$axios.$get('https://compayz-vuejs-test-ecru.vercel.app/plans/plans_details/plan1.json');
             this.planName = plano4d.data.planInfo.name;
             this.basePlanValue = plano4d.data.planInfo.planBaseAmt;
         },
         getPlan5dData () {
-            // const plano5d = await this.$axios.$get('https://compayz-vuejs-test-ecru.vercel.app/plans/plans_details/plan2.json');
             this.planName = plano5d.data.planInfo.name;
             this.basePlanValue = plano5d.data.planInfo.planBaseAmt;
-        },
-        nextStep () {
-            this.isPlanSelected = false;
-            this.isDataFilledIn = true;
-        },
-        openCardModal () {
-            this.isPlanSelected = false;
-            this.isDataFilledIn = false;
-            this.isCardFilledIn = true;
         },
         getDomainsNumber (settedDomains) {
             this.extraDomainsSelected = settedDomains;
@@ -106,6 +82,34 @@ export default {
             setTimeout(() => {
                 this.planUnavailable = false;
             }, 2500);
+        },
+        handleModal (modalStage) {
+            switch(modalStage) {
+            case 0:
+                this.isPlanSelected = false;
+                this.isDataFilledIn = false;
+                this.isCardFilledIn = false;
+                break;
+            case 1:
+                this.isPlanSelected = true;
+                this.isDataFilledIn = false;
+                this.isCardFilledIn = false;
+                break;
+            case 2:
+                this.isPlanSelected = false;
+                this.isDataFilledIn = true;
+                this.isCardFilledIn = false;
+                break;
+            case 3:
+                this.isPlanSelected = false;
+                this.isDataFilledIn = false;
+                this.isCardFilledIn = true;
+                break;
+            default:
+                this.isPlanSelected = false;
+                this.isDataFilledIn = false;
+                this.isCardFilledIn = false;
+            }
         }
     }
 };

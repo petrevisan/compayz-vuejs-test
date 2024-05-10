@@ -134,7 +134,7 @@ export default {
             }
         },
         getPreviousForm (){
-            this.$emit('getBackPreviousForm');
+            this.$emit('getPrevModal');
         },
         setPaymentInfo () {
             this.$store.commit('setPayment', {

@@ -152,7 +152,7 @@ export default {
             this.$emit('closeModal');
         },
         getPreviousForm () {
-            this.$emit('getPreviousForm');
+            this.$emit('getPrevModal');
         },
         async getCepData (cep) {
             try {
