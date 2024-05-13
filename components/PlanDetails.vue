@@ -29,7 +29,10 @@
 export default {
     name: 'PlanDetails',
     props: {
-        planName: String,
+        planName: {
+            type: String,
+            required: true
+        }
     },
     data () {
         return {
