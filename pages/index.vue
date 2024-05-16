@@ -20,8 +20,8 @@
                 </b-col>
             </b-row>
         </b-container>
-        <AlertBox v-if="planUnavailable"></AlertBox>
-        <PersonalDataForm v-if="isPlanSelected" @closeModal="handleModal(0)" @nextStep="handleModal(2)"></PersonalDataForm>
+        <AlertBox v-if="planUnavailable" bg-color="red" text="Plano indisponível no momento." ></AlertBox>
+        <PersonalDataForm v-if="isPlanSelected" @closeModal="handleModal(0)" @openNextModal="handleModal(2)"></PersonalDataForm>
         <AddressForm v-if="isDataFilledIn" @closeModal="handleModal(0)" @addressFilledIn="handleModal(3)" @getPrevModal="handleModal(1)"></AddressForm>
         <CreditCardForm v-if="isCardFilledIn" :total-price="valueToBRL" @closeModal="handleModal(0)" @getPrevModal="handleModal(2)"></CreditCardForm>
     </div>
@@ -130,5 +130,4 @@ export default {
   border-radius: 12px;
   padding: 60px 20px;
 }
-
 </style>

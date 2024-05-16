@@ -1,14 +1,28 @@
 <template>
     <div>
-        <div id="alert">
-            <span>Plano indisponível no momento.</span>
+        <div id="alert" :style="{ background: bgColor, color: textColor }">
+            <span>{{ text }}</span>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'AlertBox'
+    name: 'AlertBox',
+    props: {
+        text: {
+            type: String,
+            required: true
+        },
+        bgColor: {
+            type: String,
+            default: '#000'
+        },
+        textColor: {
+            type: String,
+            default: '#fff'
+        }
+    }
 };
 </script>
 
@@ -27,7 +41,6 @@ export default {
   }
 }
 #alert {
-  background: red;
   padding: 10px 20px;
   font-weight: bold;
   border-radius: 12px;

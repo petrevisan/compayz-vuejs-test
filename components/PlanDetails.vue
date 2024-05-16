@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         setExtraDomains () {
-            const settedDomains = this.extraDomains;
+            const settedDomains = Number(this.extraDomains);
             this.$emit('setExtraDomains', settedDomains);
         }
     }

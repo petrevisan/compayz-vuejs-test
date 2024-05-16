@@ -112,6 +112,7 @@ export default {
             expirationDate: '',
             securityCode: '',
             submitted: false,
+            maskCpfCnpj: '###.###.###-##'
         };
     },
     validations: {

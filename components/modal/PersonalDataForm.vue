@@ -68,7 +68,7 @@
                     type="submit"
                     variant="primary"
                     class="modal-submit"
-                    @click="setPersonalInfo(); nextStep()">Próximo</b-button>
+                    @click="setPersonalInfo(); openNextModal()">Próximo</b-button>
             </div>
         </section>
     </div>
@@ -91,6 +91,7 @@ export default {
                 errorMessage: '',
             },
             submitted: false,
+            maskCpfCnpj: '###.###.###-##'
         };
     },
     validations: {
@@ -126,13 +127,13 @@ export default {
                 phone: this.customerData.phone,
             });
         },
-        nextStep () {
+        openNextModal () {
             this.submitted = true;
             this.$v.$touch();
             if (this.$v.$invalid) {
                 return;
             }
-            this.$emit('nextStep');
+            this.$emit('openNextModal');
         },
         updateCpfCnpj () {
             const cleanValue = this.customerData.registrationNumber.replace(/\D+/g, '');

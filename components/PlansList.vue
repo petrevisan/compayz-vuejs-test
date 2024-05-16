@@ -47,7 +47,6 @@ export default {
         };
     },
     mounted () {
-        // this.getAvailablePlans();
         this.setPlan(1);
 
     },
