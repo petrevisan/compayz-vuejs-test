@@ -2,12 +2,13 @@
     <div class="col-12 d-flex flex-column flex-md-row">
         <b-button
             v-for="plan in availablePlans"
-            id="planButton"
             :key="plan.id"
+            class="planButton"
             variant="outline-primary"
             @click="setPlan(plan.id)">
             {{ plan.name }}
         </b-button>
+        <h2 v-if="plansUnavailable">Planos indisponíveis no momento, tente mais tarde.</h2>
     </div>
 </template>
 <script>
@@ -16,44 +17,27 @@ export default {
     name: 'PlansList',
     data () {
         return {
-            availablePlans: [
-                {
-                    'id': 1,
-                    'seqno': 10,
-                    'name': 'Plano 4D'
-                },
-                {
-                    'id': 2,
-                    'seqno': 20,
-                    'name': 'Plano 5D'
-                },
-                {
-                    'id': 3,
-                    'seqno': 30,
-                    'name': 'Plano 6D'
-                },
-                {
-                    'id': 4,
-                    'seqno': 40,
-                    'name': 'Plano 7D'
-                },
-                {
-                    'id': 5,
-                    'seqno': 50,
-                    'name': 'SPACE'
-                }
-            ],
-            showPlanContent: {},
+            availablePlans: [],
+            plansUnavailable: false
         };
+    },
+    created () {
+        this.getPlans();
     },
     mounted () {
         this.setPlan(1);
-
     },
     methods: {
-        /* getAvailablePlans () {
-            this.availablePlans = this.allPlans.data.activePlans;
-        }, */
+        async getPlans () {
+            try {
+                const plans = await this.$axios.get('json/available-plans.json');
+                this.availablePlans = plans.data.data.activePlans;
+                console.log(plans);
+            } catch (error) {
+                this.plansUnavailable = true;
+                console.error(error);
+            }
+        },
         setPlan (planId) {
             switch(planId) {
             case 1:
@@ -62,17 +46,8 @@ export default {
             case 2:
                 this.$emit('getPlan5d');
                 break;
-            case 3:
-                this.$emit('planUnavailable');
-                break;
-            case 4:
-                this.$emit('planUnavailable');
-                break;
-            case 5:
-                this.$emit('planUnavailable');
-                break;
             default:
-                this.$emit('getPlan4d');
+                this.$emit('planUnavailable');
             }
         }
     }
@@ -80,7 +55,7 @@ export default {
 </script>
 <style scoped>
 
-#planButton {
+.planButton {
   width: 20%;
   background: transparent;
   border: 1px solid #fff;

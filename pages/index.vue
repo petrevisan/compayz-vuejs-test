@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import plano4d from 'static/json/plan1.json';
+import plano5d from 'static/json/plan2.json';
 import PlansList from '@/components/PlansList.vue';
 import PlanDetails from '@/components/PlanDetails.vue';
 import PersonalDataForm from '@/components/modal/PersonalDataForm.vue';
@@ -33,8 +35,6 @@ import AddressForm from '@/components/modal/AddressForm.vue';
 import CreditCardForm from '@/components/modal/CreditCardForm.vue';
 import PreCheckout from '@/components/PreCheckout.vue';
 import AlertBox from '@/components/AlertBox.vue';
-import plano4d from '@/json/plan1.json';
-import plano5d from '@/json/plan2.json';
 export default {
     name: 'IndexPage',
     components: {
