@@ -32,7 +32,7 @@ export default {
             try {
                 const plans = await this.$axios.get('json/available-plans.json');
                 this.availablePlans = plans.data.data.activePlans;
-                console.log(plans);
+                // console.log(plans);
             } catch (error) {
                 this.plansUnavailable = true;
                 console.error(error);
