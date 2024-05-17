@@ -47,40 +47,40 @@ export default {
     }
 };
 </script>
-<style scoped>
 
+<style scoped>
 .plan-included {
-  border: 1px solid #ffffff20;
-  border-radius: 12px;
-  padding: 10px;
+border: 1px solid #ffffff20;
+border-radius: 12px;
+padding: 10px;
 }
 
 .font {
-  font-size: 24px;
-  font-weight: bold;
+font-size: 24px;
+font-weight: bold;
 }
 
 h2 {
-  font-size: 32px;
-  font-weight: bold;
+font-size: 32px;
+font-weight: bold;
 }
 
 .minor-fonts {
-  font-size: 18px;
+font-size: 18px;
 }
 @media(max-width:768px) {
-  h2 {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-  }
+h2 {
+font-size: 24px;
+font-weight: bold;
+text-align: center;
+}
 
-  .font {
-    font-size: 18px;
-  }
+.font {
+font-size: 18px;
+}
 
-  .minor-fonts {
-    font-size: 15px;
-  }
+.minor-fonts {
+font-size: 15px;
+}
 }
 </style>

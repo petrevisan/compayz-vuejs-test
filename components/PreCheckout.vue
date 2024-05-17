@@ -26,10 +26,6 @@
 export default {
     name: 'PreCheckout',
     props: {
-        /* extraDomainsSelected: {
-            type: Number,
-            required: true,
-        }, */
         planName: {
             type: String,
             required: true,

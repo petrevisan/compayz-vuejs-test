@@ -1,25 +1,23 @@
 <template>
-    <div id="wrapper">
-        <b-container id="plans-wrapper" fluid>
-            <b-row class="my-3 d-block mx-auto">
-                <b-col cols="12" class="d-block mx-auto">
-                    <PlansList @getPlan4d="getPlan4dData" @getPlan5d="getPlan5dData" @planUnavailable="showUnavailableAlert"/>
-                </b-col>
-            </b-row >
-            <b-row class="px-3 flex-column flex-md-row">
-                <b-col id="" cols="12" lg="8" class="mt-lg-4">
+    <div id="page-wrapper">
+        <div id="content-wrapper" class="container-fluid d-flex flex-column">
+            <div>
+                <PlansList @getPlan4d="getPlan4dData" @getPlan5d="getPlan5dData" @planUnavailable="showUnavailableAlert"/>
+            </div>
+            <div class="d-flex flex-column flex-lg-row">
+                <div class="col-12 col-lg-8">
                     <PlanDetails :plan-name="planName" @setExtraDomains="getDomainsNumber"/>
-                </b-col>
-                <b-col cols="12" lg="4" class="mt-5 mt-lg-4">
+                </div>
+                <div class="col-12 col-lg-4">
                     <PreCheckout
                         :plan-name="planName"
                         :plan-price="basePlanValue"
                         :extra-domains="extraDomainsSelected"
                         @openDataModal="handleModal(1)"
                     />
-                </b-col>
-            </b-row>
-        </b-container>
+                </div>
+            </div>
+        </div>
         <AlertBox v-if="planUnavailable" bg-color="red" text="Plano indisponível no momento." ></AlertBox>
         <PersonalDataForm v-if="isPlanSelected" @closeModal="handleModal(0)" @openNextModal="handleModal(2)"></PersonalDataForm>
         <AddressForm v-if="isDataFilledIn" @closeModal="handleModal(0)" @addressFilledIn="handleModal(3)" @getPrevModal="handleModal(1)"></AddressForm>
@@ -116,17 +114,17 @@ export default {
 </script>
 
 <style scoped>
-#wrapper {
+#page-wrapper {
   background: #22252F;
   min-height: 100vh;
   width: 100vw;
   padding-block: 80px;
 }
 
-#plans-wrapper {
+#content-wrapper {
   background: #2B2E3B;
-  min-height: 100px;
   width: 90vw;
+  gap: 50px;
   border-radius: 12px;
   padding: 60px 20px;
 }
